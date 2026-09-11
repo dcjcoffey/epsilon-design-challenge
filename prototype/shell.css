@@ -1,0 +1,172 @@
+/* Data Health shell — every rule in this file is Data Health's (page layout, control deck, code surface, the status
+ * badge's colour hooks). CORE UI's own CSS is untouched in assets/: coreui-tokens.css (their compiled tokens + icon
+ * font) and coreui-components.css (their component rules, extracted from the Storybook captures). One block below is
+ * copied from CORE UI's Radial live demo and says so. */
+/* Data Health prototype — shell.
+ * Mirrors CORE UI's own Storybook live-demo page: grey page, toolbar with the theme <select>,
+ * white preview panel, controls panel on the RIGHT, dark spec block below. The toolbar and
+ * select rules come straight from their docs styles (in coreui-components.css); this file only
+ * adds the layout and the Data Health surfaces. Chrome is built from --coreui-* / --slate-* tokens. */
+
+* { box-sizing: border-box; }
+/* Reserve the scrollbar's width always, so opening the code surface never shifts the page (the scrollbar was not the
+ * cause of the Dark-theme edge line — that was the pane painting behind a page that loaded light; see index.html). */
+html { scrollbar-gutter: stable both-edges; }   /* both-edges: the reserved gutter is mirrored on the left, so the two page gutters match */
+/* The ROOT paints the canvas (edges) — so it must carry the theme too, not only body; and it is pinned to the viewport */
+html { background: var(--slate-97, #f7f7f7); color-scheme: light; }
+html:has(body.Core-Theme--Dark) { background: var(--slate-10, #1a1a1a); color-scheme: dark; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  color: var(--coreui-status-text-primary, #1a1a1a);
+  background: var(--slate-97, #f7f7f7);
+}
+body.Core-Theme--Dark { background: var(--slate-10, #1a1a1a); }
+body.Core-Theme--Dark .extended-toolbar { background-color: var(--slate-10, #1a1a1a); }
+body.Core-Theme--Dark .select-container select { background-color: var(--slate-13, #212121); color: var(--slate-100, #fff); box-shadow: inset 0 0 0 .0625rem var(--slate-25, #404040); }
+
+.dh-page { min-height: 100vh; }
+
+/* ---- carousel: centred in the toolbar; select on the left, a matching spacer on the right ---- */
+/* The toolbar mirrors the preview|controls grid below it (same columns, same side margins), so the carousel is
+ * centred over the PREVIEW column, not the whole page. Column 1 = select · carousel · spacer; column 2 is empty. */
+.extended-toolbar {
+  display: grid; grid-template-columns: minmax(0, 1fr) 300px; align-items: center;
+  padding: 1rem 1.5rem; width: auto;
+}
+.extended-toolbar > .select-container { grid-column: 1; grid-row: 1; justify-self: start; width: 180px; }
+.dh-carousel { grid-column: 1; grid-row: 1; justify-self: center; }
+.dh-toolbar-spacer { display: none; }
+/* name above, CORE UI Pagination below — the pager's own look comes entirely from their .Core-Pagination rules */
+.dh-carousel { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.dh-carousel-name {
+  min-width: 280px; text-align: center; white-space: nowrap; line-height: 1.3;
+  font-family: 'Montserrat', 'Source Sans 3', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: .01em;
+  color: var(--coreui-status-text-primary, #1a1a1a);
+}
+.dh-carousel .Core-SVG { width: 24px; height: 24px; display: inline-block; }
+.dh-carousel .Core-SVG svg { width: 100%; height: 100%; fill: currentColor; }
+
+/* title row sits above their .extended-toolbar; the toolbar keeps only the theme select */
+.dh-title { display: flex; align-items: baseline; gap: 10px; padding: 1.5rem 1.5rem 0; }
+.extended-toolbar { padding: 1rem 1.5rem; }   /* 16px between the theme select and the surfaces below */
+.dh-title b { font-family: 'Montserrat', 'Source Sans 3', sans-serif; font-weight: 700; font-size: 16px; }
+.dh-title span { font-size: 13px; color: var(--coreui-table-header-text, #666); }   /* same grey as the table header row */
+
+/* ---- live-demo grid: preview | controls ------------------------------- */
+/* preview + controls: one edge-to-edge block with a slight stroke; the shared edge is the divider */
+.dh-livedemo {
+  display: grid; grid-template-columns: minmax(0, 1fr) 300px; align-items: stretch;
+  margin: 0 1.5rem 1.5rem; border: 1px solid var(--slate-90, #e6e6e6);
+}
+body.Core-Theme--Dark .dh-livedemo, body.Core-Theme--Dark .dh-preview { border-color: var(--slate-25, #404040); }
+.dh-preview {
+  background: var(--coreui-component-primary-background, #fff);
+  padding: 1.5rem; margin: 0; min-width: 0;
+  border-right: 1px solid var(--slate-90, #e6e6e6);
+  display: flex; flex-direction: column; align-items: center; gap: 26px;   /* contents centred */
+}
+.dh-controls {
+  background: var(--coreui-component-primary-background, #fff);
+  padding: 1.25rem 1.5rem 0.5rem; margin: 0;
+}
+/* Spacing snapped to the 4-grid, matched to the reference deck: item pitch 28 · label→first item 24 · group gap 44.
+ * Group gap = their own 36px .has-bottom-margin + one 8px item gap; only the item gap is overridden. */
+.dh-controls { padding-top: 8px; }
+.dh-controls-head { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+/* group labels: bold 16px in CORE UI's body face, primary text — matched to the reference deck (Storybook's Nunito Sans, which CORE UI does not ship) */
+.dh-controls .Core-RadioGroup-label, .dh-controls .dh-ctl-label {
+  margin: 0 0 8px; padding: 0; line-height: 20px;                       /* label→first item = 20 + 8 = 28 */
+  font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 15px; font-weight: 700;   /* same size as the items, bold */
+  color: var(--coreui-status-text-primary, #1a1a1a);
+}
+.dh-controls .Core-RadioGroup-label span { font: inherit; color: inherit; }
+.dh-controls .Core-FormField .Core-FormField-label .Core-FormField-labelValue { font-size: 15px; }
+.dh-controls .Core-FormField.has-bottom-margin { margin: 0 0 8px; }
+.dh-controls .Core-FormField-label { line-height: 20px; }
+.dh-controls .select-container { margin: 4px 0 36px; }
+.dh-controls .select-container select { block-size: 2.5rem; padding-block: .5rem; }
+.dh-ctl-label {
+  display: block; font-size: 14px; font-weight: 700; margin: 0 0 6px;
+  color: var(--coreui-status-text-primary, #1a1a1a);
+}
+.dh-glyph { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; color: #fff; margin-right: 8px; vertical-align: -4px; }
+.dh-glyph svg { width: 11px; height: 11px; }
+.dh-glyph-plain { display: inline-block; width: 16px; height: 16px; vertical-align: -3px; margin-right: 8px; }
+.dh-glyph-plain svg { width: 16px; height: 16px; }
+
+/* ---- preview surfaces -------------------------------------------------- */
+.dh-surface { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.dh-surface > * { width: 100%; }
+.dh-surface[hidden] { display: none; }
+.dh-surface-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700;
+  color: var(--coreui-status-text-secondary, #888); margin: 0 0 10px;
+}
+
+/* dashboard summary: one Card with a radial + legend (their Radial demo layout) */
+.dh-dash { display: block; }
+.dh-dash coreui-dataviz-card { display: flex; max-width: 720px; margin: 0 auto; }
+/* Radial live demo's own story styles (scoped to the demo in Storybook, so they travel with the page, not the library) */
+.legend-item { max-width: 12rem; display: flex; justify-content: space-between; }
+.legend-item > span:nth-child(1) { width: 9rem; white-space: normal; text-align: left; margin-right: 1rem; }
+.legend-item > span:nth-child(2) { width: 3.25rem; text-align: right; }
+.tooltip { display: flex; flex-direction: row; justify-content: center; }
+.tooltip .tooltip-color { width: 0.125rem; margin-right: 0.5rem; }
+.tooltip .tooltip-display { flex: 1; display: flex; flex-direction: column; }
+.tooltip .tooltip-display .tooltip-xvalue { font-weight: 700; font-size: 1.125rem; }
+.tooltip .tooltip-display .tooltip-yvalue { font-size: 0.8125rem; }
+/* their panel is a 0x0 anchor, so the content box takes its own width; app.js places it in window coordinates */
+.Core-DataViz-Tooltip-panel .Core-DataViz-Tooltip-content { width: max-content; }
+/* the marked status: their legend focus ring, held while the status is selected; the status icon sits in the colour slot */
+.Core-DataViz-Legend .Core-DataViz-Legend-item.is-selected { box-shadow: inset 0 0 0 0.125rem var(--coreui-focus-primary-outline); }
+.Core-DataViz-Legend .Core-DataViz-Legend-item .dh-legend-icon { border: 0; display: grid; place-items: center; }
+.Core-DataViz-Legend .Core-DataViz-Legend-item .dh-legend-icon svg { width: 16px; height: 16px; fill: currentColor; }
+/* the marked or hovered slice fades (their donut animates opacity), no stroke */
+.Core-DataViz-DonutSeries { cursor: pointer; }
+.Core-DataViz-DonutSeries.is-active { stroke: none; opacity: 0.35; }
+
+.dh-status-cell { display: inline-flex; align-items: center; gap: 8px; }
+.dh-row-anim { transition: opacity .22s ease, transform .22s ease; }
+.dh-row-hidden { opacity: 0; transform: translateY(-4px); }
+
+/* Card preview: a 2×2 cluster of fixed-width cards, centred as a block (their demo's layout) */
+.dh-cards { display: grid; grid-template-columns: repeat(2, 264px); justify-content: center; gap: 24px; width: auto; }
+.dh-cards coreui-card { display: block; }
+.dh-card-footer { margin-top: 12px; }
+
+/* ---- Show code row + code surface ------------------------------------- */
+/* Storybook's preview-actions row, measured on CORE UI's docs page: 40px row, two flat text buttons, bold 12px,
+   grey until the code is shown, then blue on a faint blue ground; the code surface sits ABOVE the row and pushes it down */
+.dh-code { margin: 0 1.5rem; }
+.dh-code-actions { display: flex; align-items: center; gap: 6px; height: 40px; margin: 0 1.5rem 1.5rem; }
+.dh-code-actions button {
+  display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border: 0; border-radius: 4px; background: transparent;
+  font: 700 12px/12px 'Source Sans 3', sans-serif; color: #5c6570; cursor: pointer;
+}
+.dh-code-actions button:hover { color: #0055b8; }
+.dh-code-actions .docblock-code-toggle--expanded { color: #0055b8; background: rgba(0, 99, 214, 0.07); }
+
+/* tooltip: their .Core-ToolTip look; we only position it */
+.dh-tip { position: fixed; z-index: 60; pointer-events: none; }
+.dh-tip .tooltipMessage { display: block; max-width: 240px; white-space: normal; }
+.Core-ToolTip-trigger { cursor: help; }
+
+.dh-spec {
+  margin: 0; padding: 18px 22px; border-radius: 4px;
+  background: rgba(0, 0, 0, 0.85); color: #d4d4d4;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 12.5px; line-height: 1.6;
+  white-space: pre-wrap; overflow-x: auto;
+}
+.dh-code-count { font: 700 12px/12px 'Source Sans 3', sans-serif; color: #5c6570; padding: 0 0 8px 2px; }
+.dh-spec .dh { display: inline-block; width: calc(100% + 44px); box-sizing: border-box; margin: 0 -22px; padding: 0 22px 0 18px; border-left: 4px solid #ffbf00; background: rgba(255, 191, 0, 0.08); }
+.dh-spec .dh::after { content: ' ◀ Data Health'; color: #ffbf00; font-weight: 700; }
+.dh-spec .t { color: #569cd6; }   /* tag */
+.dh-spec .k { color: #9cdcfe; }   /* attribute */
+.dh-spec .v { color: #ce9178; }   /* value */
+
+@media (max-width: 980px) {
+  .dh-livedemo { grid-template-columns: 1fr; }
+  .dh-preview { border-right: 0; border-bottom: 1px solid var(--slate-90, #e6e6e6); }
+  .dh-dash { grid-template-columns: repeat(4, 1fr); }
+}
