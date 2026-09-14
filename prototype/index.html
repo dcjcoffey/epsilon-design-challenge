@@ -9,16 +9,19 @@
        colour it sees at load, so a page that loads light and turns dark later shows a light frame at its edges. -->
   <script>
     (function () { var t = 'Light'; try { t = localStorage.getItem('dh-theme') || t; } catch (e) {}
-      var d = t === 'Dark'; var h = document.documentElement;
+      var d = t !== 'Light'; var h = document.documentElement;
       h.style.background = d ? '#1a1a1a' : '#f7f7f7'; h.style.colorScheme = d ? 'dark' : 'light';
       h.setAttribute('data-theme', t); })();
   </script>
   <link rel="stylesheet" href="assets/coreui-tokens.css" />
   <link rel="stylesheet" href="assets/coreui-components.css" />
+  <link rel="stylesheet" href="assets/coreui-filters-action-bar.css" />
+  <link rel="stylesheet" href="assets/coreui-dataviz-bar.css" />
   <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="data-health.css" />
 </head>
 <body class="Core-Theme--Light">
-  <script>(function () { var t = document.documentElement.getAttribute('data-theme'); document.body.className = 'Core-Theme--' + (t === 'Dark' ? 'Dark' : 'Light'); document.body.style.background = t === 'Dark' ? '#1a1a1a' : '#f7f7f7'; })();</script>
+  <script>(function () { var t = document.documentElement.getAttribute('data-theme'); document.body.className = 'Core-Theme--' + (t === 'Light' ? 'Light' : 'Dark'); document.body.style.background = t === 'Light' ? '#f7f7f7' : '#1a1a1a'; })();</script>
   <div class="dh-page" data-dh="shell">
 
     <!-- Title row, above the toolbar -->
@@ -44,18 +47,23 @@
     <div class="coreui-livedemo dh-livedemo">
       <div class="dh-preview" id="preview">
         <section class="dh-surface" data-surface="table" aria-label="Table">
-          <p class="dh-surface-label" data-dh="shell">Table</p>
           <div id="tableMount" data-dh="shell"></div>
         </section>
 
+        <section class="dh-surface" data-surface="tableGroups" aria-label="Table with group headers">
+          <div id="tableGroupsMount" data-dh="shell"></div>
+        </section>
+
         <section class="dh-surface" data-surface="card" aria-label="Card">
-          <p class="dh-surface-label" data-dh="shell">Card</p>
           <div class="dh-cards" id="cardMount" data-dh="shell"></div>
         </section>
 
         <section class="dh-surface" data-surface="dash" aria-label="Dashboard summary">
-          <p class="dh-surface-label" data-dh="shell">Dashboard summary · click a status to narrow the table</p>
           <div class="dh-dash" id="dash" data-dh="shell"></div>
+        </section>
+
+        <section class="dh-surface" data-surface="dashBar" aria-label="Dashboard summary: bar">
+          <div class="dh-dash" id="dashBar" data-dh="shell"></div>
         </section>
       </div>
 
@@ -79,6 +87,7 @@
   </div>
 
   <script src="data.js"></script>
+  <script src="coreui-markup.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

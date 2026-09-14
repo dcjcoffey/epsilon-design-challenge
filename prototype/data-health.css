@@ -1,0 +1,62 @@
+/* Data Health — the status indicator. Every rule here is the pattern's own; the components it sits in are CORE UI's.
+ * Seven states × three icon families (Option A Classic · B Stack · C Hybrid, assets/status/<a|b|c>/) × two renderings:
+ *   icon     — the state's icon, its name beside it
+ *   lozenge  — icon and name inside a tinted, bordered pill
+ * Icons are inlined SVG (app.js fetches them once) so the theme can recolour B's data stack.
+ * The colours borrow CORE UI's families: Apple (error) · Pineapple (warn) · Lime (success) ·
+ * Ultra Marine (component icon, active) · Plum (info). */
+
+.dh-status {
+  display: inline-flex; align-items: center; vertical-align: middle; white-space: nowrap;
+  font-size: 14px; font-weight: 500; line-height: normal;
+}
+.dh-icon { display: inline-flex; flex: none; align-items: center; justify-content: center; }
+.dh-icon svg { display: block; width: auto; max-width: 100%; height: 100%; }
+
+.dh-status--icon { gap: 7px; color: #707272; }
+.dh-status--icon .dh-icon { width: 23px; height: 24px; }
+
+/* bare: the icon alone (table Status column, card corner), named by CORE UI's tooltip on hover/focus */
+.dh-status--bare { cursor: help; }
+td:has(> .dh-status--bare) { text-align: center; }   /* the design file centres the bare icon in the Status column */
+.dh-status--bare .dh-icon { width: 23px; height: 24px; }
+.dh-status--bare:focus-visible, .dh-card-icon:focus-visible { outline: 2px solid var(--coreui-focus-primary-outline); outline-offset: 2px; border-radius: 2px; }
+
+.dh-status--lozenge { gap: 8px; padding: 3px 6px; border: 1px solid; border-radius: 6px; color: #000; }
+.dh-status--lozenge .dh-icon { width: 19px; height: 20px; }
+.dh-status--lozenge.dh-status--failed    { background: #FFECF2; border-color: #A32F44; }
+.dh-status--lozenge.dh-status--warning   { background: #FCFEE8; border-color: #DBC14A; }
+.dh-status--lozenge.dh-status--healthy   { background: #F3FFEF; border-color: #27671B; }
+.dh-status--lozenge.dh-status--partial,
+.dh-status--lozenge.dh-status--pending   { background: #EFF3FF; border-color: #004198; }
+.dh-status--lozenge.dh-status--unknown,
+.dh-status--lozenge.dh-status--undefined { background: #F9EFFF; border-color: #560098; }
+
+/* Option B's data stack takes CORE UI's own passive-icon colour: Slate 45 in light, Slate 70 in dark (measured from
+ * their .Core-Theme--Light / --Dark token blocks). The badge on its corner keeps the state's colour. */
+.dh-stack { fill: var(--coreui-component-icon); }
+
+/* Dashboard legend: the radial's colour slot holds the icon */
+.Core-DataViz-Legend .Core-DataViz-Legend-item .dh-legend-icon .dh-icon { width: 23px; height: 24px; }
+.dh-legend-lozenge { display: inline-flex; align-items: center; gap: 10px; }
+
+/* In CORE UI's Card. icon: the state's icon on the lower-right corner of the card's icon. lozenge: a smaller lozenge
+ * in the card's top-right corner, above the subheader. */
+.Core-Card .Core-Card-iconContainer:has(> .dh-card-icon) { position: relative; }
+.dh-card-icon { position: absolute; left: 24px; top: 17px; width: 16px; height: 17.5px; }
+.Core-Card:has(> .dh-card-lozenge) { position: relative; }
+.dh-card-lozenge { position: absolute; top: 4px; right: 16px; }
+.dh-card-lozenge .dh-status--lozenge { gap: 5px; padding: 2px 4px; border-radius: 3px; font-size: 9px; }
+.dh-card-lozenge .dh-status--lozenge .dh-icon { width: 12px; height: 12.5px; }
+
+/* Dark theme: CORE UI's own dark bordered Badge — dark ground, the state's colour as the border, light text — read
+ * from its themed status tokens. Ultra Marine has no status token, so its states take the themed active-icon blue. */
+.Core-Theme--Dark .dh-status--icon { color: var(--coreui-table-header-text); }
+.Core-Theme--Dark .dh-status--lozenge { color: var(--coreui-status-text-primary); }
+.Core-Theme--Dark .dh-status--lozenge.dh-status--failed    { background: var(--coreui-status-error-background);   border-color: var(--coreui-status-error-border); }
+.Core-Theme--Dark .dh-status--lozenge.dh-status--warning   { background: var(--coreui-status-warn-background);    border-color: var(--coreui-status-warn-border); }
+.Core-Theme--Dark .dh-status--lozenge.dh-status--healthy   { background: var(--coreui-status-success-background); border-color: var(--coreui-status-success-border); }
+.Core-Theme--Dark .dh-status--lozenge.dh-status--partial,
+.Core-Theme--Dark .dh-status--lozenge.dh-status--pending   { background: var(--coreui-status-info-background);    border-color: var(--coreui-component-icon--active); }
+.Core-Theme--Dark .dh-status--lozenge.dh-status--unknown,
+.Core-Theme--Dark .dh-status--lozenge.dh-status--undefined { background: var(--coreui-status-info-background);    border-color: var(--coreui-status-info-border); }

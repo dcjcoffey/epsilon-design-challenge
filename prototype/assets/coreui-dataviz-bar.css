@@ -1,0 +1,173 @@
+coreui-sb-stacked-vertical-bar coreui-dataviz-card {
+  min-height: 28.75rem;
+}
+coreui-sb-stacked-vertical-bar .x-value {
+  font-size: 13px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--coreui-component-primary-text);
+  margin-bottom: 0.5rem;
+}
+coreui-sb-stacked-vertical-bar .tooltip {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+coreui-sb-stacked-vertical-bar .tooltip:last-of-type {
+  margin-bottom: 0;
+}
+coreui-sb-stacked-vertical-bar .tooltip   .tooltip-color {
+  width: 2px;
+  margin-right: 8px;
+}
+coreui-sb-stacked-vertical-bar .tooltip   .tooltip-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+coreui-sb-stacked-vertical-bar .tooltip   .tooltip-display   .tooltip-series-name {
+  color: var(--coreui-component-primary-text);
+  font-size: 13px;
+  font-size: 0.8125rem;
+}
+coreui-sb-stacked-vertical-bar .tooltip   .tooltip-display   .tooltip-yvalue {
+  font-weight: 700;
+  font-size: 18px;
+  font-size: 1.125rem;
+}
+coreui-sb-stacked-vertical-bar .tooltip   .tooltip-display   .tooltip-xvalue {
+  font-size: 13px;
+  font-size: 0.8125rem;
+}
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider {
+  display: flex;
+  justify-content: center;
+  margin-top: -2.3125rem;
+}
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider coreui-slider {
+  margin-right: 0.3125rem;
+  flex: 1 0 96%;
+  margin-left: -0.05rem;
+}
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider span {
+  flex: 1 0 5%;
+  color: var(--coreui-component-primary-text);
+  font-weight: 600;
+  font-size: 13px;
+  font-size: 0.8125rem;
+  text-align: right;
+}
+@media (min-width: 1440px) {
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider coreui-slider {
+    flex: 1 0 97.5%;
+  }
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider span {
+    text-align: center;
+    flex: 1 0 4%;
+  }
+}
+@media (max-width: 1200px) {
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider coreui-slider {
+    flex: 1 0 96.6%;
+  }
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider coreui-slider .Core-Slider {
+    margin-right: 0.75rem;
+  }
+}
+@media (max-width: 992px) {
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider coreui-slider {
+    flex: 1 0 96.5%;
+  }
+}
+@media (max-width: 768px) {
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider coreui-slider {
+    margin-left: -0.625rem;
+    flex: 1 0 93%;
+  }
+}
+@media (max-width: 576px) {
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider coreui-slider {
+    margin-left: -0.5rem;
+    flex: 1 0 91%;
+  }
+}
+@media (min-width: 1790px) {
+.Core-DataViz-Card coreui-dataviz-portal .Core-Selectable-Slider coreui-slider {
+    flex: 1 0 98.3%;
+  }
+}
+.Core-DataViz-Axis--bottom.Core-DataViz-Axis line,
+.Core-DataViz-Axis--bottom.Core-DataViz-Axis path {
+  fill: none;
+  stroke: var(--theme_data-surface-1_on-color-1);
+  shape-rendering: crispEdges;
+}
+.Core-DataViz-Axis--bottom.Core-DataViz-Axis {
+  
+}
+.Core-DataViz-Axis--bottom.Core-DataViz-Axis .tick line {
+  opacity: 0.2;
+}
+.Core-DataViz-Axis--bottom.Core-DataViz-Axis text {
+  color: var(--theme_data-surface-1_on-color-1);
+  fill: var(--theme_data-surface-1_on-color-1);
+  font-size: 12px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-family: "Source Sans 3 Variable", sans-serif;
+}
+.Core-DataViz-Axis--bottom.Core-DataViz-Axis .domain {
+  stroke: transparent;
+}
+.Core-DataViz-Axis--bottom.Core-DataViz-Axis .Core-DataViz-Axis-Label {
+  font-weight: 600;
+}
+.Core-DataViz-Axis--bottom .Core-DataViz-Axis-border {
+  fill: var(--theme_data-surface-1_on-color-3);
+}
+.Core-DataViz-Axis--bottom.Core-DataViz-AxisScale--linear-stacked {
+  
+}
+.Core-DataViz-Axis--bottom.Core-DataViz-AxisScale--linear-stacked .tick text {
+  fill: none;
+}
+@media (max-width: 768px) {
+.Core-DataViz-Axis--bottom {
+    
+  }
+.Core-DataViz-Axis--bottom .tick:nth-of-type(2n) {
+    display: none;
+  }
+}
+.Core-DataViz-Axis--left.Core-DataViz-Axis line,
+.Core-DataViz-Axis--left.Core-DataViz-Axis path {
+  fill: none;
+  stroke: var(--theme_data-surface-1_on-color-1);
+  shape-rendering: crispEdges;
+}
+.Core-DataViz-Axis--left.Core-DataViz-Axis {
+  
+}
+.Core-DataViz-Axis--left.Core-DataViz-Axis .tick line {
+  opacity: 0.2;
+}
+.Core-DataViz-Axis--left.Core-DataViz-Axis text {
+  color: var(--theme_data-surface-1_on-color-1);
+  fill: var(--theme_data-surface-1_on-color-1);
+  font-size: 12px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-family: "Source Sans 3 Variable", sans-serif;
+}
+.Core-DataViz-Axis--left.Core-DataViz-Axis .domain {
+  stroke: transparent;
+}
+.Core-DataViz-Axis--left.Core-DataViz-Axis .Core-DataViz-Axis-Label {
+  font-weight: 600;
+}
+.Core-DataViz-VerticalBarSeries .is-active {
+  stroke: var(--coreui-dv-stroke-selected);
+  stroke-width: 1.5px;
+  shape-rendering: crispEdges;
+}

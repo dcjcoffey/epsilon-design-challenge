@@ -1,0 +1,939 @@
+coreui-sb-filter-action-bar-live-demo .actionsWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .actionsWrapper     .Core-CheckboxMenu-button-checkboxWrapper {
+  display: flex;
+}
+coreui-sb-filter-action-bar-live-demo .actionsWrapper     .checked-row-count {
+  margin-left: 0.625rem;
+  display: inline-flex;
+  align-items: flex-end;
+  color: var(--coreui-input-text);
+}
+coreui-sb-filter-action-bar-live-demo .Core-Table-row   .Core-Badge {
+  justify-content: center;
+}
+coreui-sb-filter-action-bar-live-demo .Core-Table-row   .Core-Table-iconColumn {
+  padding-right: 0;
+  padding-left: 0;
+}
+coreui-sb-filter-action-bar-live-demo .segmentedControl {
+  margin-right: 1.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .menu-spacing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .menu-spacing   coreui-menu {
+  margin: 0;
+}
+coreui-sb-filter-action-bar-live-demo .clear-button {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .campaign-totals {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  font-size: 0.875rem;
+  align-items: center;
+  height: 2.125rem;
+  margin-right: 1rem;
+}
+coreui-sb-filter-action-bar-live-demo .campaign-totals   span {
+  margin-right: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .campaign-totals.no-margin-left {
+  margin-left: 0;
+}
+coreui-sb-filter-action-bar-live-demo .center-campaign-totals {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  font-size: 0.875rem;
+  align-items: center;
+  height: 2.125rem;
+  margin-left: 1.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .center-campaign-totals   span {
+  margin-right: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .center-campaign-totals.no-margin-left {
+  margin-left: 0;
+}
+coreui-sb-filter-action-bar-live-demo .selection-notification {
+  margin: 1rem 0;
+}
+coreui-sb-filter-action-bar-live-demo .selection-notification   .selection-products {
+  font-weight: 600;
+}
+coreui-sb-filter-action-bar-live-demo .panelButtons {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+coreui-sb-filter-action-bar-live-demo .filter-badge {
+  margin-left: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .campaign-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .campaign-cell   .managed-icon {
+  color: var(--coreui-text-secondary);
+}
+coreui-sb-filter-action-bar-live-demo .campaign-cell   div {
+  display: flex;
+  flex-direction: column;
+}
+coreui-sb-filter-action-bar-live-demo .campaign-cell   div   .text-style-muted-3 {
+  font-size: 0.6875rem;
+  color: var(--coreui-text-tertiary);
+}
+coreui-sb-filter-action-bar-live-demo .filter-title {
+  margin: 1rem 0;
+}
+coreui-sb-filter-action-bar-live-demo .drawer-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.costsPanel .Core-Filter-panelContent, 
+  .statusPanel .Core-Filter-panelContent, 
+  .typePanel .Core-Filter-panelContent, 
+  .pacingPanel .Core-Filter-panelContent {
+  max-height: 250px;
+  overflow-y: auto;
+}
+coreui-sb-filter-action-bar-live-demo .Custom-Radio-Row {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+}
+coreui-sb-filter-action-bar-live-demo .Custom-Radio-Row   .Custom-Radio-Btn {
+  margin-bottom: 0;
+  padding-top: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .Custom-Radio-Row     coreui-form-field {
+  display: flex !important;
+}
+coreui-sb-filter-action-bar-live-demo .custom-range-input {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+coreui-sb-filter-action-bar-live-demo .custom-range-input   .range-separator {
+  margin: 0 0.5rem;
+  font-size: 14px;
+  font-size: 0.875rem;
+  padding-top: 0.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .custom-range-input   input.input-width {
+  width: 6.3125rem;
+  margin-left: 0rem !important;
+  flex: auto !important;
+}
+coreui-sb-filter-action-bar-live-demo .custom-range-input     coreui-form-field {
+  margin-bottom: 0 !important;
+}
+coreui-sb-filter-action-bar-live-demo .custom-range-input     .Core-FormField-error {
+  margin-top: 0.25rem;
+}
+coreui-sb-filter-action-bar-live-demo .Core-ScrollIndicator {
+  height: calc(100% - 122px);
+}
+coreui-sb-filter-action-bar-live-demo .Core-Drawer-scrollTarget {
+  max-height: calc(100vh - 169px);
+  overflow-y: auto;
+  height: 100%;
+}
+coreui-sb-filter-action-bar-live-demo .Core-Form {
+  padding: 0 0.25rem;
+}
+coreui-sb-filter-action-bar-live-demo .Core-Form   [label=Type],
+coreui-sb-filter-action-bar-live-demo .Core-Form   [label="Amount Spent"],
+coreui-sb-filter-action-bar-live-demo .Core-Form     .Core-CheckboxGroup {
+  margin-bottom: 1.5rem;
+}
+coreui-sb-filter-action-bar-live-demo .Core-Form     .Core-RadioGroup {
+  margin-bottom: 1.5rem;
+}
+coreui-sb-filter-action-bar-live-demo [coreUISvgIcon] {
+  width: 1rem;
+  height: 1rem;
+}
+coreui-sb-filter-action-bar-live-demo .scroll-table     .Core-Table-scrollContainer {
+  max-height: 600px;
+  overflow-y: auto;
+}
+.Core-FilterGroup coreui-filter:not(:last-of-type).is-active + coreui-filter .Core-Filter.is-primary .Core-Filter-button {
+  border-left: 1px solid var(--coreui-input-border--selected) !important;
+}
+.Core-ActionBar-content--left:empty {
+  display: none !important;
+}
+.Core-ActionBar {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 8px;
+}
+.Core-ActionBar .Core-ActionBar-content--left {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-right: 1.5rem;
+}
+.Core-ActionBar .Core-ActionBar-content--left > div {
+  display: flex;
+}
+.Core-ActionBar .Core-ActionBar-content--center {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-right: 1.5rem;
+}
+.Core-ActionBar .Core-ActionBar-content--right {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.Core-ActionBar .Core-Menu-buttonIcon.Core-Menu-buttonLink {
+  border-color: var(--coreui-iconbutton-border);
+  min-width: 36px;
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Core-ActionBar .Core-Menu-buttonIcon.Core-Menu-buttonLink:hover {
+  border-color: transparent;
+}
+.Core-ActionBar .Core-Menu-buttonIcon.Core-Menu-buttonLink:hover.is-active {
+  outline: var(--coreui-focus-primary-outline);
+}
+.Core-ActionBar .Core-Menu-buttonIcon.Core-Menu-buttonLink:focus {
+  border-color: var(--coreui-focus-primary-outline);
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  border: 1px solid var(--coreui-input-border);
+  background-color: var(--coreui-component-primary-background);
+  border-radius: 4px;
+  outline: none;
+  padding: 0 10px;
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button .Core-CheckboxMenu-button-checkboxWrapper {
+  height: 15px;
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button .Core-CheckboxMenu-button-checkboxWrapper label {
+  grid-template-columns: 1rem;
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button .Core-CheckboxMenu-buttonContent {
+  display: flex;
+  align-items: center;
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button .Core-CheckboxMenu-buttonContent .Core-CheckboxMenu-buttonContent-arrow {
+  color: var(--coreui-input-icon);
+  transform: rotate(0deg);
+  margin-left: 0.5rem;
+  margin-right: 0.125rem;
+  pointer-events: none;
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button .Core-CheckboxMenu-buttonContent .Core-CheckboxMenu-buttonContent-arrow svg {
+  width: 1rem;
+  height: 1rem;
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button:hover {
+  background-color: var(--coreui-button-primary-background--hover);
+  border-color: var(--coreui-button-primary-background--hover);
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button:focus {
+  outline: 2px solid var(--coreui-focus-secondary-outline);
+  box-shadow: 0 0 0 0.25rem var(--coreui-focus-primary-outline);
+  border-color: var(--coreui-component-transparent-border);
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button:focus .Core-CheckboxMenu-buttonContent-arrow {
+  color: var(--coreui-button-primary-background);
+}
+coreui-checkbox-menu .Core-CheckboxMenu-button:focus-within {
+  outline: 2px solid var(--coreui-focus-secondary-outline);
+  box-shadow: 0 0 0 0.25rem var(--coreui-focus-primary-outline);
+  border-color: var(--coreui-component-transparent-border);
+}
+coreui-checkbox-menu.is-ready .Core-CheckboxMenu-button {
+  transition-property: border-color, background-color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+coreui-checkbox-menu.is-ready .Core-CheckboxMenu-button .Core-CheckboxMenu-buttonContent-arrow {
+  transition-property: color, transform;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+coreui-checkbox-menu.is-menu .Core-CheckboxMenu-button {
+  padding: 0 6px;
+}
+coreui-checkbox-menu.is-active .Core-CheckboxMenu-buttonContent .Core-CheckboxMenu-buttonContent-arrow {
+  transform: rotate(-180deg);
+}
+.Core-CheckboxMenu-panel {
+  z-index: 40;
+}
+.Core-CheckboxMenu-panel > .Core-Panel-content {
+  min-width: 160px;
+}
+.Core-CheckboxMenu-panel .Core-CheckboxMenu-panelContent {
+  position: relative;
+  border-radius: 4px;
+  box-shadow: var(--coreui-box-shadow-medium);
+  padding: 24px 16px 16px;
+  background-color: var(--coreui-component-primary-background);
+  -webkit-user-select: none;
+          user-select: none;
+}
+.Core-CheckboxMenu-panel .Core-CheckboxMenu-panelContent .Core-MenuSection {
+  padding: 0 0 24px;
+  margin: 0;
+}
+.Core-CheckboxMenu-panel .Core-CheckboxMenu-panelContent .Core-MenuSection:last-of-type {
+  padding-bottom: 8px;
+}
+.Core-SegmentedGroup {
+  border: 0;
+  padding: 0;
+}
+.Core-SegmentedGroup.has-bottom-margin {
+  margin-bottom: 2.25rem;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-label {
+  color: var(--coreui-input-text);
+  margin-bottom: 0.25rem;
+  line-height: normal;
+  font-weight: 400;
+  font-size: 14px;
+  font-size: 0.875rem;
+}
+.Core-SegmentedGroup.is-readonly .Core-SegmentedGroup-label {
+  color: var(--coreui-component-secondary-text);
+  font-size: 0.8125rem;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-readonly {
+  color: var(--coreui-input-text);
+  font-weight: 400;
+  font-size: 14px;
+  font-size: 0.875rem;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-readonly-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style-type: disc;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-readonly-list li {
+  line-height: 1.5;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-readonly-value {
+  display: block;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content {
+  position: relative;
+  min-height: 2.25rem;
+  width: fit-content;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0 0.0625rem var(--coreui-input-border);
+  background-color: var(--coreui-input-background);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content.is-disabled {
+  background-color: var(--coreui-input-background--disabled);
+  cursor: not-allowed;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button {
+  border: none;
+  border-radius: 0.25rem;
+  background-color: var(--coreui-button-secondary-background);
+  color: var(--coreui-input-text);
+  height: 1.75rem;
+  padding: 0.375rem 0.75rem;
+  transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-size: 14px;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:disabled, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-disabled {
+  outline: none;
+  background-color: var(--coreui-input-background--disabled);
+  color: var(--coreui-button-text--disabled);
+  cursor: not-allowed;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:disabled.Core-Button--icon-large, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-disabled.Core-Button--icon-large {
+  border: none;
+  color: var(--coreui-button-icon--disabled);
+  background-color: var(--coreui-input-background--disabled);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:focus:not(.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:disabled, .is-disabled) {
+  outline: 2px solid var(--coreui-focus-secondary-outline);
+  box-shadow: 0 0 0 0.25rem var(--coreui-focus-primary-outline);
+  border-color: var(--coreui-component-transparent-border);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:focus:not(.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:disabled, .is-disabled).Core-Button--icon-large {
+  border: none;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:not(:first-of-type, :last-of-type) {
+  margin: 0 0.25rem;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:hover:not(.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:disabled, .is-disabled, .is-active) {
+  background-color: var(--coreui-input-background--hover);
+  color: var(--coreui-input-toggle-icon--hover);
+  transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  fill: var(--coreui-input-toggle-icon--hover);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button[class*=Core-Button--icon], .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:not(.is-active, :hover, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:disabled, .is-disabled) .Core-Icon, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:not(.is-active, :hover, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button:disabled, .is-disabled) .Core-SVG {
+  color: var(--coreui-component-icon);
+  transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  fill: var(--coreui-component-icon);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active {
+  background-color: var(--coreui-input--selected);
+  color: var(--coreui-component-selected-text);
+  fill: var(--coreui-component-selected-text);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active:disabled, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active.is-disabled {
+  background-color: var(--coreui-input-icon--disabled);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active:disabled.Core-Button--icon-large, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active.is-disabled.Core-Button--icon-large {
+  color: var(--coreui-input-text--disabled);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active:not(:hover, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active:disabled, .is-disabled) .Core-Icon, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active:not(:hover, .Core-SegmentedGroup .Core-SegmentedGroup-content .Core-Segmented-Button.is-active:disabled, .is-disabled) .Core-SVG {
+  color: var(--coreui-component-selected-icon);
+  fill: var(--coreui-component-selected-icon);
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content .Core-SegmentedGroup-selection-indicator {
+  position: absolute;
+  pointer-events: none;
+  height: 1.75rem;
+  width: var(--coreui-indicator-width);
+  border-radius: 0.25rem;
+  background: var(--coreui-input--selected);
+  transform: translateX(var(--coreui-indicator-position));
+  transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  visibility: hidden;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content:has(.Core-SegmentedGroup-selection-indicator) {
+  
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content:has(.Core-SegmentedGroup-selection-indicator) .Core-Segmented-Button {
+  background-color: transparent;
+  z-index: 1;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content:has(.Core-SegmentedGroup-selection-indicator) .Core-Segmented-Button.is-active {
+  background-color: transparent;
+}
+.Core-SegmentedGroup .Core-SegmentedGroup-content:has(.Core-SegmentedGroup-selection-indicator):has(.Core-Segmented-Button.is-active) .Core-SegmentedGroup-selection-indicator {
+  visibility: visible;
+}
+.Core-FilterGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+.Core-FilterGroup coreui-filter:not(:first-of-type) {
+  margin-left: 0;
+}
+.Core-FilterGroup coreui-filter:not(:first-of-type) .Core-Filter.is-primary .Core-Filter-button {
+  border-left: 1px solid var(--coreui-input-border);
+}
+.Core-FilterGroup coreui-filter:not(:only-of-type) .Core-Filter .Core-Filter-button {
+  border-radius: 0;
+}
+.Core-FilterGroup coreui-filter:last-of-type .Core-Filter .Core-Filter-button {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.Core-FilterGroup coreui-filter:not(:last-of-type) .Core-Filter.is-primary .Core-Filter-button {
+  border-right: none;
+}
+.Core-FilterGroup coreui-filter.is-selected + coreui-filter .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup coreui-filter.is-active + coreui-filter .Core-Filter.is-primary .Core-Filter-button {
+  border-left-color: var(--coreui-input-border--selected);
+}
+.Core-FilterGroup coreui-filter:not(:first-of-type).is-selected .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup coreui-filter:not(:first-of-type).is-active .Core-Filter.is-primary .Core-Filter-button {
+  border-left-color: var(--coreui-input-border--selected);
+}
+.Core-FilterGroup coreui-filter.is-selected:hover + coreui-filter:not(.is-selected, .is-active) .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup coreui-filter.is-active:hover + coreui-filter:not(.is-selected, .is-active) .Core-Filter.is-primary .Core-Filter-button {
+  border-left-color: var(--coreui-input-border);
+}
+.Core-FilterGroup coreui-filter.is-selected:hover:not(:first-of-type) .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup coreui-filter.is-active:hover:not(:first-of-type) .Core-Filter.is-primary .Core-Filter-button {
+  border-left-color: var(--coreui-input-border);
+}
+.Core-FilterGroup coreui-filter.is-selected + coreui-filter.is-selected:hover .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup coreui-filter.is-selected + coreui-filter.is-active:hover .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup coreui-filter.is-active + coreui-filter.is-selected:hover .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup coreui-filter.is-active + coreui-filter.is-active:hover .Core-Filter.is-primary .Core-Filter-button {
+  border-left-color: var(--coreui-input-border--selected);
+}
+.Core-FilterGroup .Core-FilterGroup-label {
+  border: 1px solid var(--coreui-input-border);
+  border-right: 0;
+  cursor: default;
+  background-color: var(--coreui-component-icon-background--disabled);
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  padding: 0 0.5rem;
+  height: 36px;
+  color: var(--coreui-component-icon);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Core-FilterGroup .Core-FilterGroup-label .Core-FilterGroup-labelText {
+  font-size: 13px;
+  font-size: 0.8125rem;
+}
+.Core-FilterGroup .Core-FilterGroup-label .Core-Icon {
+  transform: scale(1.5);
+}
+.Core-FilterGroup:not(:first-of-type) {
+  margin-left: 0.5rem;
+}
+.Core-FilterGroup:not(.has-label) coreui-filter:first-of-type .Core-Filter .Core-Filter-button {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.Core-FilterGroup.has-label coreui-filter:first-of-type .Core-Filter.is-primary .Core-Filter-button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 1px solid var(--coreui-input-border);
+}
+.Core-FilterGroup.has-label coreui-filter:first-of-type.is-selected .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup.has-label coreui-filter:first-of-type.is-active .Core-Filter.is-primary .Core-Filter-button {
+  border-left-color: var(--coreui-input-border--selected);
+}
+.Core-FilterGroup.has-label coreui-filter:first-of-type.is-selected:hover .Core-Filter.is-primary .Core-Filter-button, .Core-FilterGroup.has-label coreui-filter:first-of-type.is-active:hover .Core-Filter.is-primary .Core-Filter-button {
+  border-left-color: var(--coreui-input-border);
+}
+coreui-filter .Core-Filter {
+  display: flex;
+  flex-direction: column;
+}
+coreui-filter .Core-Filter .Core-Filter-label {
+  font-size: 12px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--coreui-input-label-text);
+  display: block;
+  margin-bottom: 8px;
+  margin-right: 16px;
+}
+coreui-filter .Core-Filter .Core-Filter-button {
+  outline: none;
+  padding: 8px 8px 9px;
+  border-radius: 4px;
+  height: 36px;
+  cursor: pointer;
+}
+coreui-filter .Core-Filter .Core-Filter-button .Core-Filter-buttonContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+coreui-filter .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-icon svg {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+coreui-filter .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-icon {
+  display: inline-flex;
+  color: var(--coreui-input-icon);
+  fill: var(--coreui-input-icon);
+}
+coreui-filter .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-text {
+  font-size: 13px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--coreui-input-text--placeholder);
+}
+coreui-filter .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow svg {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+coreui-filter .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow {
+  color: var(--coreui-input-icon);
+  fill: var(--coreui-input-icon);
+  transform: rotate(0.1deg);
+  margin-left: 0.25rem;
+  align-items: center;
+  display: flex;
+  line-height: normal;
+}
+coreui-filter .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent--left {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+coreui-filter .Core-Filter.is-primary .Core-Filter-button {
+  border: 1px solid var(--coreui-input-border);
+  background-color: var(--coreui-input-background);
+}
+coreui-filter .Core-Filter.is-secondary .Core-Filter-button {
+  border: none;
+  background-color: transparent;
+}
+coreui-filter .Core-Filter.is-primary .Core-Filter-button:focus, coreui-filter .Core-Filter.is-secondary .Core-Filter-button:focus {
+  outline: 2px solid var(--coreui-focus-secondary-outline);
+  box-shadow: 0 0 0 0.25rem var(--coreui-focus-primary-outline);
+  border-color: var(--coreui-component-transparent-border);
+  z-index: 10;
+}
+coreui-filter.is-selected .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-text {
+  color: var(--coreui-input-text--selected);
+}
+coreui-filter.is-selected .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow {
+  color: var(--coreui-input-icon--selected);
+}
+coreui-filter.is-selected.is-ready .Core-Filter .Core-Filter-button {
+  border: 1px solid var(--coreui-input-border--selected);
+}
+coreui-filter.is-selected.is-ready .Core-Filter .Core-Filter-button .Core-Filter-buttonContent-icon {
+  color: var(--coreui-input-icon--selected);
+  fill: var(--coreui-input-icon--selected);
+}
+coreui-filter.is-ready .Core-Filter .Core-Filter-label {
+  transition-property: color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+coreui-filter.is-ready .Core-Filter {
+  
+}
+coreui-filter.is-ready .Core-Filter .Core-Filter-button {
+  transition-property: background-color, border-color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+coreui-filter.is-ready .Core-Filter .Core-Filter-button .Core-Filter-buttonContent {
+  white-space: nowrap;
+}
+coreui-filter.is-ready .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-text {
+  transition-property: color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+coreui-filter.is-ready .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow,
+coreui-filter.is-ready .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent {
+  transition-property: color, transform;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+coreui-filter.is-active .Core-Filter {
+  
+}
+coreui-filter.is-active .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow {
+  transform: rotate(-180deg);
+}
+coreui-filter.is-active .Core-Filter.is-primary {
+  
+}
+coreui-filter.is-active .Core-Filter.is-primary .Core-Filter-button {
+  border-color: var(--coreui-input-border--selected);
+  z-index: 10;
+}
+coreui-filter:hover .Core-Filter.is-primary {
+  
+}
+coreui-filter:hover .Core-Filter.is-primary .Core-Filter-button {
+  background-color: var(--coreui-input-background--hover);
+  border-color: transparent;
+}
+coreui-filter:hover .Core-Filter.is-primary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-text, coreui-filter.is-active .Core-Filter.is-primary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-text {
+  color: var(--coreui-input-text--selected);
+}
+coreui-filter:hover .Core-Filter.is-primary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow, coreui-filter.is-active .Core-Filter.is-primary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow {
+  color: var(--coreui-input-icon--selected);
+  fill: var(--coreui-input-icon--selected);
+}
+coreui-filter:hover .Core-Filter.is-primary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-icon, coreui-filter.is-active .Core-Filter.is-primary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-icon {
+  color: var(--coreui-input-icon--selected);
+  fill: var(--coreui-input-icon--selected);
+}
+coreui-filter:hover .Core-Filter.is-secondary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-text, coreui-filter.is-active .Core-Filter.is-secondary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-text {
+  color: var(--coreui-button-primary-background);
+}
+coreui-filter:hover .Core-Filter.is-secondary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow, coreui-filter.is-active .Core-Filter.is-secondary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-arrow {
+  color: var(--coreui-button-primary-background);
+  fill: var(--coreui-button-primary-background);
+}
+coreui-filter:hover .Core-Filter.is-secondary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-icon, coreui-filter.is-active .Core-Filter.is-secondary .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-icon {
+  color: var(--coreui-button-primary-background);
+  fill: var(--coreui-button-primary-background);
+}
+.Core-Filter-panel > .Core-Panel-content {
+  min-width: 160px;
+}
+.Core-Filter-panel .Core-Filter-panelContent {
+  position: relative;
+  border-radius: 4px;
+  box-shadow: var(--coreui-box-shadow-medium);
+  padding: 24px 16px;
+  background-color: var(--coreui-component-primary-background);
+  -webkit-user-select: none;
+          user-select: none;
+}
+.Core-Filter-panel .Core-Filter-panelContent .Core-MenuSection {
+  padding: 0.5rem;
+  margin: 0;
+}
+.Core-Filter-panel .Core-Filter-panelContent .Core-MenuSection:first-of-type {
+  padding-top: 0;
+}
+.Core-Filter-panel .Core-Filter-panelContent .Core-MenuSection:last-of-type {
+  padding-bottom: 0;
+}
+.Core-Filter-panel .Core-Filter-panelContent .Core-MenuSection .Core-MenuSection-label {
+  padding: 0 0 16px;
+}
+coreui-panel.Core-Filter-panel {
+  z-index: 40;
+}
+.Core-Filter-option {
+  display: block;
+  padding: 0.25rem 0.5rem;
+  white-space: nowrap;
+  color: var(--coreui-component-primary-text);
+  background-color: var(--coreui-component-primary-background);
+  line-height: normal;
+  border: 0;
+  width: 100%;
+  text-align: left;
+  border-radius: 0.25rem;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 13px;
+  font-size: 0.8125rem;
+}
+.Core-Filter-option:hover {
+  background: var(--coreui-input-background--hover);
+}
+.Core-Filter-option:focus {
+  outline-style: none;
+}
+.Core-Filter-option:disabled {
+  color: var(--coreui-component-text--disabled);
+  cursor: default;
+}
+.Core-Filter-option:disabled > a {
+  color: var(--coreui-component-text--disabled);
+}
+.Core-Filter-option.is-active {
+  background: var(--coreui-input--selected);
+  color: var(--coreui-status-text-secondary);
+}
+.Core-Filter-option.is-focused {
+  outline: 2px solid var(--coreui-focus-secondary-outline);
+  box-shadow: 0 0 0 0.25rem var(--coreui-focus-primary-outline);
+  border-color: var(--coreui-component-transparent-border);
+}
+[coreUIFilterOption]:last-child .Core-Filter-option {
+  margin-bottom: 0;
+}
+.Core-FilterSelect {
+  display: block;
+}
+.Core-FilterSelect:first-of-type {
+  padding-top: 0;
+}
+.Core-FilterSelect:last-of-type {
+  padding-bottom: 0;
+}
+.Core-FilterSelect .Core-FilterSelect-label {
+  color: var(--coreui-component-primary-text);
+  font-weight: 600;
+  font-size: 15px;
+  font-size: 0.9375rem;
+  padding: 0 0 1rem;
+}
+.Core-FilterSelect .Core-FilterSelect-content--scrollable {
+  max-height: calc(10rem + 0.5rem * 2);
+  overflow-y: auto;
+  overscroll-behavior: none;
+  scroll-padding: 0.5rem;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin: 0 -0.5rem;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input {
+  white-space: nowrap;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input::-ms-clear {
+  display: none;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .is-disabled.Core-TableSearch-input {
+  border-color: var(--coreui-input-border--disabled);
+  background-color: var(--coreui-input-background--disabled);
+  color: var(--coreui-input-text--disabled);
+  cursor: not-allowed;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .is-disabled.Core-TableSearch-input::placeholder {
+  color: var(--coreui-input-text--disabled);
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input {
+  padding: 0.625rem 0.75rem 0.5rem 0.5rem;
+  background-color: var(--coreui-input-background);
+  border: 0.0625rem solid var(--coreui-input-border);
+  border-radius: 0.25rem;
+  text-overflow: ellipsis;
+  color: var(--coreui-input-text);
+  width: 100%;
+  height: 2.25rem;
+  font-size: 14px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input::input-placeholder {
+  color: var(--coreui-component-icon);
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input {
+  
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input:placeholder {
+  color: var(--coreui-component-icon);
+  opacity: 1;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input::placeholder {
+  color: var(--coreui-component-icon);
+  opacity: 1;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input:input-placeholder {
+  color: var(--coreui-component-icon);
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .is-ready.Core-TableSearch-input {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  transition-property: border-color, background-color;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .is-disabled.Core-TableSearch-input:focus, .Core-TableSearch .Core-TableSearch-inputWrapper .is-disabled.Core-TableSearch-input:active {
+  outline-style: none;
+  box-shadow: none;
+  pointer-events: none;
+  border-color: var(--coreui-input-border--disabled);
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input:focus {
+  outline: 2px solid var(--coreui-focus-secondary-outline);
+  box-shadow: 0 0 0 0.25rem var(--coreui-focus-primary-outline);
+  border-color: var(--coreui-component-transparent-border);
+  z-index: 10;
+  position: relative;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input:active {
+  border-color: var(--coreui-input-border--selected);
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input:has(+ .Core-Icon), .Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input:has(+ .Core-Button--icon:not(.Core-InlineEdit-editButton)) {
+  padding-right: 2.25rem;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input + .Core-Icon {
+  position: absolute;
+  bottom: 0.5625rem;
+  right: calc(1.5rem - 0.625rem);
+  cursor: pointer;
+  z-index: 10;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input + .Core-Icon:focus {
+  border-radius: 0.25rem;
+  outline: 2px solid var(--coreui-focus-secondary-outline);
+  box-shadow: 0 0 0 0.25rem var(--coreui-focus-primary-outline);
+  border-color: var(--coreui-component-transparent-border);
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input + .Core-Button--icon:not(.Core-InlineEdit-editButton) {
+  position: absolute;
+  right: 0;
+  width: calc(1.5rem + 0.625rem);
+  height: 100%;
+  z-index: 10;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input + .Core-Button--icon:not(.Core-InlineEdit-editButton):hover {
+  background: none;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper {
+  min-width: 12.5rem;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input {
+  padding: 0.5625rem 1.75rem 0.5625rem 0.5rem;
+  border: 1px solid var(--coreui-input-border);
+  border-radius: 4px;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-iconWrapper svg {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-iconWrapper {
+  display: flex;
+  position: absolute;
+  right: 0.3125rem;
+  z-index: 10;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-iconWrapper .Core-TableSearch-searchIcon {
+  color: var(--coreui-input-icon);
+  fill: var(--coreui-input-icon);
+  padding: 0 0.375rem;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-iconWrapper .Core-TableSearch-closeIcon svg {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-iconWrapper .Core-TableSearch-closeIcon {
+  color: var(--coreui-button-secondary-icon);
+  fill: var(--coreui-button-secondary-icon);
+}
+.Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-iconWrapper :hover .Core-TableSearch-closeIcon {
+  color: var(--coreui-button-primary-text--hover);
+  fill: var(--coreui-button-primary-text--hover);
+}
+.Core-TableSearch.is-disabled .Core-TableSearch-inputWrapper .Core-TableSearch-input:active {
+  border-color: var(--coreui-input-border--disabled);
+}
+.Core-TableSearch.is-disabled .Core-TableSearch-inputWrapper .Core-TableSearch-searchIcon {
+  color: var(--coreui-input-icon--disabled);
+  fill: var(--coreui-input-icon--disabled);
+  cursor: not-allowed;
+}
+.Core-TableSearch.is-disabled .Core-TableSearch-inputWrapper .Core-TableSearch-closeButton .Core-TableSearch-closeIcon {
+  color: var(--coreui-input-text--disabled);
+  fill: var(--coreui-input-text--disabled);
+}
+@media (max-width: 992px) {
+.Core-TableSearch .Core-TableSearch-inputWrapper {
+    max-width: 20rem;
+    min-width: inherit;
+  }
+coreui-table-search:not(.Core-FixedWidth--short, .Core-FixedWidth--medium) .Core-TableSearch-inputWrapper {
+    max-width: none;
+  }
+}
+coreui-table-search.Core-FixedWidth--short .Core-TableSearch-inputWrapper {
+  max-width: 12.5rem;
+}
+coreui-table-search.Core-FixedWidth--medium .Core-TableSearch-inputWrapper {
+  max-width: 25rem;
+}

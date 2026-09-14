@@ -99,10 +99,6 @@ body.Core-Theme--Dark .dh-livedemo, body.Core-Theme--Dark .dh-preview { border-c
 .dh-surface { width: 100%; display: flex; flex-direction: column; align-items: center; }
 .dh-surface > * { width: 100%; }
 .dh-surface[hidden] { display: none; }
-.dh-surface-label {
-  font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700;
-  color: var(--coreui-status-text-secondary, #888); margin: 0 0 10px;
-}
 
 /* dashboard summary: one Card with a radial + legend (their Radial demo layout) */
 .dh-dash { display: block; }
@@ -120,11 +116,20 @@ body.Core-Theme--Dark .dh-livedemo, body.Core-Theme--Dark .dh-preview { border-c
 .Core-DataViz-Tooltip-panel .Core-DataViz-Tooltip-content { width: max-content; }
 /* the marked status: their legend focus ring, held while the status is selected; the status icon sits in the colour slot */
 .Core-DataViz-Legend .Core-DataViz-Legend-item.is-selected { box-shadow: inset 0 0 0 0.125rem var(--coreui-focus-primary-outline); }
-.Core-DataViz-Legend .Core-DataViz-Legend-item .dh-legend-icon { border: 0; display: grid; place-items: center; }
-.Core-DataViz-Legend .Core-DataViz-Legend-item .dh-legend-icon svg { width: 16px; height: 16px; fill: currentColor; }
-/* the marked or hovered slice fades (their donut animates opacity), no stroke */
-.Core-DataViz-DonutSeries { cursor: pointer; }
+.Core-DataViz-Legend .Core-DataViz-Legend-item .dh-legend-icon { border: 0; border-radius: 0; width: 23px; height: 24px; align-self: center; }
+/* the lozenge legend under the bars: one row of seven (their grid's 10rem minimum wraps it to two) */
+.dh-dash coreui-sb-stacked-vertical-bar .Core-DataViz-Legend { grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); margin-top: 20px; }
+/* the marked or hovered slice or bar segment fades (their donut animates opacity), no stroke */
 .Core-DataViz-DonutSeries.is-active { stroke: none; opacity: 0.35; }
+.Core-DataViz-VerticalBarSeries rect { transition: opacity .15s ease; }
+/* pointer only while a click narrows the Table (app.js NARROWING); otherwise nothing on the chart is clickable */
+.dh-dash:not(.dh-narrowing) .Core-DataViz-Legend-item button { cursor: default; }
+.dh-narrowing .Core-DataViz-DonutSeries, .dh-narrowing .Core-DataViz-VerticalBarSeries rect { cursor: pointer !important; }
+.Core-DataViz-VerticalBarSeries .is-active { stroke: none; opacity: 0.2; }
+/* the bar card spans the preview; its chart scales with it */
+.dh-dash coreui-sb-stacked-vertical-bar { display: block; }
+.dh-dash coreui-sb-stacked-vertical-bar coreui-dataviz-card { max-width: none; }
+.dh-dash coreui-sb-stacked-vertical-bar .Core-DataViz-Portal-Viz { width: 100%; height: auto; }
 
 .dh-status-cell { display: inline-flex; align-items: center; gap: 8px; }
 .dh-row-anim { transition: opacity .22s ease, transform .22s ease; }
@@ -151,6 +156,14 @@ body.Core-Theme--Dark .dh-livedemo, body.Core-Theme--Dark .dh-preview { border-c
 .dh-tip { position: fixed; z-index: 60; pointer-events: none; }
 .dh-tip .tooltipMessage { display: block; max-width: 240px; white-space: normal; }
 .Core-ToolTip-trigger { cursor: help; }
+/* Its motion is CORE UI's PanelComponent's, verbatim from their bundle (panel.component.scss): a "top" tooltip's panel
+ * takes is-open-up / is-close-up, animated by panel-open-up / panel-close-up over $panelDuration ($timingFast, 200ms)
+ * with $panelEasing ($easingStandard). Reduced motion collapses it to 1ms, as their rule does. */
+@keyframes panel-open-up  { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes panel-close-up { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(10px); } }
+.dh-tip.is-open-up  { animation: panel-open-up 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.dh-tip.is-close-up { animation: panel-close-up 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@media (prefers-reduced-motion: reduce) { .dh-tip.is-open-up, .dh-tip.is-close-up { animation-duration: 1ms; } }
 
 .dh-spec {
   margin: 0; padding: 18px 22px; border-radius: 4px;
