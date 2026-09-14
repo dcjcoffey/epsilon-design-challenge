@@ -60,6 +60,9 @@ body.Core-Theme--Dark .select-container select { background-color: var(--slate-1
   margin: 0 1.5rem 1.5rem; border: 1px solid var(--slate-90, #e6e6e6);
 }
 body.Core-Theme--Dark .dh-livedemo, body.Core-Theme--Dark .dh-preview { border-color: var(--slate-25, #404040); }
+/* Dark: CORE UI lifts the column-header row only 2 points above the rows (15% vs 13% grey) while its group bands sit at 20%;
+   Light lifts both by 3. The header row takes the group band's level so Dark carries the same structure (DC, 2026-09-14). */
+body.Core-Theme--Dark .dh-surface { --coreui-table-header-background: var(--coreui-layer-elevated); }
 .dh-preview {
   background: var(--coreui-component-primary-background, #fff);
   padding: 1.5rem; margin: 0; min-width: 0;
@@ -120,10 +123,13 @@ body.Core-Theme--Dark .dh-livedemo, body.Core-Theme--Dark .dh-preview { border-c
 /* the lozenge legend under the bars: one row of seven (their grid's 10rem minimum wraps it to two) */
 .dh-dash coreui-sb-stacked-vertical-bar .Core-DataViz-Legend { grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); margin-top: 20px; }
 /* the marked or hovered slice or bar segment fades (their donut animates opacity), no stroke */
-.Core-DataViz-DonutSeries.is-active { stroke: none; opacity: 0.35; }
+.Core-DataViz-DonutSeries { transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1), translate var(--dh-lift-ms, 200ms) var(--dh-lift-ease, cubic-bezier(0.4, 0, 0.2, 1)); }   /* the hover lift (Sketch 07) takes its timing from motion.js via app.js */
+.Core-DataViz-DonutSeries.is-active { stroke: none; opacity: var(--dh-selected-opacity, 0.35); }   /* the value the glow show uses (motion.js), set by app.js */
 .Core-DataViz-VerticalBarSeries rect { transition: opacity .15s ease; }
 /* pointer only while a click narrows the Table (app.js NARROWING); otherwise nothing on the chart is clickable */
-.dh-dash:not(.dh-narrowing) .Core-DataViz-Legend-item button { cursor: default; }
+.dh-dash .Core-DataViz-Legend-item button { cursor: pointer; }   /* the legend toggles a state off and on (their behaviour) */
+/* a toggled-off state's lozenge and icon take the disabled look with the item (CORE UI greys the name and dims the svg) */
+.Core-DataViz-Legend .Core-DataViz-Legend-item.is-disabled .dh-status, .Core-DataViz-Legend .Core-DataViz-Legend-item.is-disabled .dh-legend-icon { opacity: 0.4; }
 .dh-narrowing .Core-DataViz-DonutSeries, .dh-narrowing .Core-DataViz-VerticalBarSeries rect { cursor: pointer !important; }
 .Core-DataViz-VerticalBarSeries .is-active { stroke: none; opacity: 0.2; }
 /* the bar card spans the preview; its chart scales with it */
@@ -183,3 +189,48 @@ body.Core-Theme--Dark .dh-livedemo, body.Core-Theme--Dark .dh-preview { border-c
   .dh-preview { border-right: 0; border-bottom: 1px solid var(--slate-90, #e6e6e6); }
   .dh-dash { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* ---- motion (motion.js): the ring scales about its own centre; the motion controls in the deck ------------------ */
+.dh-ring { transform-box: fill-box; transform-origin: center; }
+.dh-dash .Core-DataViz-Card-header h3 { display: inline-block; }   /* so its rise (translate) applies */
+.dh-controls .dh-motion .dh-motion-field .Core-FormField-label { display: block; width: 100%; }
+.dh-controls .dh-motion .Core-FormField-label .Core-FormField-labelValue { display: flex; justify-content: space-between; align-items: baseline; }
+.dh-controls .dh-motion .Core-FormField-labelValue output { display: inline; font: 400 13px/20px 'Source Sans 3', system-ui, sans-serif; color: #5c6570; background: none; padding: 0; }   /* the status-text token is white in Light */
+.dh-motion .dh-range { display: block; width: 100%; height: 20px; margin: 4px 0 0; -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
+.dh-motion .dh-range::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: transparent; }   /* the track is .dh-range-track, so the default dot can sit between track and thumb */
+.dh-motion .dh-range::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; margin-top: -6px; border-radius: 50%; border: 2px solid #fff; background: var(--coreui-component-element--selected, #0063e6); box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+.dh-motion .dh-range::-moz-range-track { height: 4px; border-radius: 2px; background: transparent; }
+.dh-motion .dh-range::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #fff; background: var(--coreui-component-element--selected, #0063e6); }
+.dh-motion .select-container { margin: 6px 0 0; }
+.dh-motion label:has(> .Core-Checkbox-input) { display: grid; grid-template-columns: 1rem auto; gap: .5rem; align-items: center; }
+.dh-motion .dh-replay { margin: 4px 0 16px; }
+.dh-motion .dh-motion-actions { display: flex; gap: 8px; margin: 4px 0 4px; }
+.dh-motion .dh-motion-actions .Core-Button { flex: 1; }
+.dh-motion .dh-replay { margin: 0; }
+.dh-motion-saved { min-height: 16px; margin: 0 0 12px; font: 400 12px/16px 'Source Sans 3', system-ui, sans-serif; color: #5c6570; }
+/* the deck's motion sections: collapsible, with a chevron that turns when open */
+.dh-motion-section { margin: 0 0 4px; }
+.dh-motion-section > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 6px; user-select: none; }
+.dh-motion-section > summary::-webkit-details-marker { display: none; }
+.dh-motion-section > summary::before { content: ''; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); margin: 0 4px 2px 2px; transition: transform .15s ease; }
+.dh-motion-section[open] > summary::before { transform: rotate(45deg); margin-bottom: 4px; }
+.dh-motion-section[open] > summary { margin-bottom: 8px; }
+/* the saved default's position on a slider: a hollow ring the thumb fits into (DC) */
+.dh-range-wrap { position: relative; display: block; }
+.dh-range-wrap .dh-range { position: relative; z-index: 3; }   /* top: the thumb */
+.dh-range-track { position: absolute; z-index: 1; left: 0; right: 0; top: 8px; height: 4px; border-radius: 2px; background: var(--coreui-component-secondary-border, #cfd4da); pointer-events: none; }   /* bottom: the track */
+.dh-range-default { position: absolute; z-index: 2; top: 5px; width: 10px; height: 10px; margin-left: -5px; background: var(--coreui-input-border--selected, #0063e6); border-radius: 50%; pointer-events: none; }   /* a solid dot in the radios' blue, smaller than the thumb: hidden under it at default, revealed when the thumb moves */
+/* CORE UI's chart SVG is 175×175 with the ring filling it to the edge; SVG clips by default, so the hover lift and the
+   glow halos were cut at top and bottom. Let it draw outside its box (their markup untouched). */
+.dh-dash svg.Core-DataViz-Portal-Viz { overflow: visible; }
+/* Radial: the ring (175px) is shorter than its legend column, and CORE UI's portal stretches children from the top, so the
+   ring sat high beside the legend. Centre the pair on the container's middle (DC, 2026-09-14). The Bar chart's portal is a
+   single column and is unaffected. */
+.dh-dash coreui-dataviz-portal .Core-DataViz-Portal { align-items: center; }
+/* …and centred on the CARD, not on the area under the title (DC's drawn line, 2026-09-14): the title floats at the card's
+   top-left, out of the flow, so the ring + legend pair sits on the card's own middle. Radial only. */
+.dh-dash .Core-DataViz-Card:has(> coreui-dataviz-portal.is-vertical) { position: relative; }   /* the Radial card: its portal is the vertical (ring + side legend) one */
+.dh-dash .Core-DataViz-Card:has(> coreui-dataviz-portal.is-vertical) > .Core-DataViz-Card-header { position: absolute; top: 1.5rem; left: 1.5rem; right: 1.5rem; margin: 0; }
+/* CORE UI's disabled legend paints the colour slot grey (theirs is a filled dot); ours holds the icon, so no box —
+   the icon itself dims to 0.4 with their svg rule */
+.Core-DataViz-Legend .Core-DataViz-Legend-item.is-disabled .dh-legend-icon { background-color: transparent !important; }

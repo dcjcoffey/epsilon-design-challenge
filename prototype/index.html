@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="assets/coreui-dataviz-bar.css" />
   <link rel="stylesheet" href="shell.css" />
   <link rel="stylesheet" href="data-health.css" />
+  <link rel="stylesheet" href="theme-layer.css" />   <!-- EXPERIMENT: swatch rail + experiment palette layer -->
 </head>
 <body class="Core-Theme--Light">
   <script>(function () { var t = document.documentElement.getAttribute('data-theme'); document.body.className = 'Core-Theme--' + (t === 'Light' ? 'Light' : 'Dark'); document.body.style.background = t === 'Light' ? '#f7f7f7' : '#1a1a1a'; })();</script>
@@ -39,6 +40,7 @@
       <div class="dh-carousel">
         <div class="dh-carousel-name" id="pname" aria-live="polite"></div>
         <div id="pager"></div>
+        <div id="themeRail" class="dh-theme-rail" role="listbox" aria-label="Theme presets (experiment)" data-dh="experiment: swatch rail"></div>
       </div>
       <div class="dh-toolbar-spacer" aria-hidden="true"></div>
     </div>
@@ -58,11 +60,11 @@
           <div class="dh-cards" id="cardMount" data-dh="shell"></div>
         </section>
 
-        <section class="dh-surface" data-surface="dash" aria-label="Dashboard summary">
+        <section class="dh-surface" data-surface="dash" aria-label="Dashboard Radial">
           <div class="dh-dash" id="dash" data-dh="shell"></div>
         </section>
 
-        <section class="dh-surface" data-surface="dashBar" aria-label="Dashboard summary: bar">
+        <section class="dh-surface" data-surface="dashBar" aria-label="Dashboard Bar">
           <div class="dh-dash" id="dashBar" data-dh="shell"></div>
         </section>
       </div>
@@ -87,6 +89,8 @@
   </div>
 
   <script src="data.js"></script>
+  <script src="motion.js"></script>
+  <script src="experiment-themes.js"></script>   <!-- EXPERIMENT: swatch rail presets -->
   <script src="coreui-markup.js"></script>
   <script src="app.js"></script>
 </body>

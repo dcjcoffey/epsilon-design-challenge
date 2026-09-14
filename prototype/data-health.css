@@ -38,7 +38,8 @@ td:has(> .dh-status--bare) { text-align: center; }   /* the design file centres 
 
 /* Dashboard legend: the radial's colour slot holds the icon */
 .Core-DataViz-Legend .Core-DataViz-Legend-item .dh-legend-icon .dh-icon { width: 23px; height: 24px; }
-.dh-legend-lozenge { display: inline-flex; align-items: center; gap: 10px; }
+.dh-legend-lozenge { margin-left: 0; }   /* the lozenge sits in CORE UI's name slot, same row layout and count column as the icon legend */
+.dh-legend-lozenge .legend-item { align-items: center; }   /* the count sits on the lozenge's centre line, not its top edge */
 
 /* In CORE UI's Card. icon: the state's icon on the lower-right corner of the card's icon. lozenge: a smaller lozenge
  * in the card's top-right corner, above the subheader. */

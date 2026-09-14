@@ -1,0 +1,237 @@
+/* Data Health — EXPERIMENT: an experiment palette laid over CORE UI's own tokens, scoped to the preview surfaces only
+ * (.dh-preview.dh-themed). Grown from an earlier experiment (cut from the submission): the six
+ * colours (--xp-ground / fill / edge / content / body / meta) are set by app.js from the swatch rail's chosen theme
+ * (experiment-themes.js). It touches no component rule: every value below is a CORE UI token their components already read.
+ *
+ * The experiment's roles map onto CORE UI's tokens as the experiment's own widgets use them: panel,
+ * content, title row, lit-glyph state, action edge, buttons — and, with a theme on, the Data Health STATUS colours are
+ * overridden from the experiment's element-state roles (bottom of this file). Focus rings take the experiment's focus role.
+ * Off by default; picked from the rail. */
+
+/* The stage wears the palette's GROUND (DC, 2026-09-14, restored on her word); the component tokens below are scoped
+   to the surfaces inside it. The Light/Dark theme itself is left alone — a swatch never switches it. */
+.dh-preview.dh-themed { background: var(--xp-ground);
+  /* CORE UI's own band colour for this Light/Dark theme, captured here (above the overrides) so the bands below can ADD the
+     theme's ground onto it instead of replacing it (a sixteenth of CORE UI's band — halved three times from the first half-and-half on DC's word: it must stay as subtle as the Dark theme's lift) — the header and group bands keep CORE UI's lift AND take the palette (DC, 2026-09-14) */
+  --dh-band-base: var(--coreui-layer-elevated); }
+.dh-preview.dh-themed > .dh-surface {
+  /* surfaces */
+  --coreui-table-primary-background: var(--xp-fill);
+  --coreui-component-primary-background: var(--xp-fill);
+  --coreui-card-primary-background: var(--xp-fill);
+  --coreui-table-header-background: color-mix(in srgb, var(--dh-band-base) 6.25%, var(--xp-ground));   /* column-header band */
+  --coreui-table-secondary-background: var(--xp-ground);
+  --coreui-table-tertiary-background: var(--xp-ground);          /* totals row */
+  --coreui-card-tertiary-background: var(--xp-ground);
+  --coreui-layer-elevated: color-mix(in srgb, var(--dh-band-base) 6.25%, var(--xp-ground));           /* group header bands */
+  --coreui-table-background--hover: color-mix(in srgb, var(--xp-ground) 50%, var(--xp-fill));   /* the experiment's hover wash: half ground into fill */
+  --coreui-input-background: var(--xp-ground);
+
+  /* edges */
+  --coreui-table-primary-border: var(--xp-edge);
+  --coreui-card-primary-border: var(--xp-edge);
+  --coreui-component-primary-border: var(--xp-edge);
+  --coreui-iconbutton-border: var(--xp-edge);
+  --coreui-component-border-active: var(--xp-icon);              /* the group band's left bar = the ICON role (DC, 2026-09-14; was secondary edge, then primary edge) */
+  --coreui-button-neutral-border: var(--xp-edge);
+  --coreui-input-border: var(--xp-edge);
+
+  /* text */
+  --coreui-status-text-primary: var(--xp-content);
+  --coreui-table-primary-text: var(--xp-body);                    /* row text = item body, the experiment's row recipe (DC, 2026-09-14) */
+  --coreui-component-primary-text: var(--xp-content);
+  --coreui-input-text: var(--xp-content);
+  --coreui-component-secondary-text: var(--xp-body);
+  --coreui-component-icon: var(--xp-body);
+  --coreui-table-icon: var(--xp-body);
+  --coreui-input-icon: var(--xp-body);
+  --coreui-component-text--disabled: var(--xp-meta);
+
+  /* chips: the status badges keep their status colours; only the chip's outer ground follows the stage */
+  --coreui-status-error-background: var(--xp-ground);
+  --coreui-status-warn-background: var(--xp-ground);
+  --coreui-status-success-background: var(--xp-ground);
+  --coreui-status-info-background: var(--xp-ground);
+  --coreui-status-neutral-background: var(--xp-ground);
+  --coreui-supportive-blueberry-background: var(--xp-ground);
+
+  /* focus ring = the experiment's "Button + field focus" role (DC, 2026-09-14): CORE UI draws a 2px ring (secondary outline) inside a
+     4px halo (primary outline); the ring takes the role at full strength, the halo the same colour at 40% */
+  --coreui-focus-secondary-outline: var(--xp-focus);
+  --coreui-focus-primary-outline: color-mix(in srgb, var(--xp-focus) 40%, transparent);
+
+  /* tooltips */
+  --coreui-component-tooltip-background: var(--xp-fill);
+  --coreui-component-tooltip-text: var(--xp-content);
+
+  /* ---- the experiment's other roles, as the experiment's own widgets use them (DC, 2026-09-14):
+     title row → headings; icon → the lit-glyph / selected state; cmedge → hover outline and action text;
+     send* / sec* → primary and secondary buttons. Status colours: see the STATUS OVERRIDE block at the end. */
+  --coreui-table-header-text: var(--xp-title);                    /* column headings */
+  --coreui-component-icon--active: var(--xp-icon);                /* lit icon */
+  --coreui-component-element--selected: var(--xp-icon);           /* selected radio / checkbox / toggle */
+  --coreui-input-icon--selected: var(--xp-icon);
+  --coreui-input-border--selected: var(--xp-icon);
+  --coreui-component-action-text: var(--xp-cmedge);               /* action links ("Clear Filters"), legend name on hover */
+  --coreui-button-primary-background: var(--xp-sendfill);
+  --coreui-button-primary-background--hover: var(--xp-sendfill);
+  --coreui-button-primary-background--active: var(--xp-sendfill);
+  --coreui-button-primary-text: var(--xp-sendtext);
+  --coreui-button-primary-text--hover: var(--xp-sendtext);
+  --coreui-button-primary-icon: var(--xp-sendtext);
+  --coreui-button-primary-border: var(--xp-sendedge);
+  --coreui-button-primary-border--hover: var(--xp-sendedge);
+  --coreui-button-neutral-background: var(--xp-secfill);
+  --coreui-button-neutral-background--hover: var(--xp-secfill);
+  --coreui-button-neutral-text: var(--xp-sectext);
+  --coreui-button-neutral-text--hover: var(--xp-sectext);
+  --coreui-button-neutral-icon: var(--xp-sectext);
+  --coreui-button-neutral-border: var(--xp-secedge);
+  --coreui-button-neutral-border--hover: var(--xp-secedge);
+  --coreui-button-secondary-background: var(--xp-secfill);
+  --coreui-button-secondary-background--hover: var(--xp-secfill);
+  --coreui-button-secondary-text: var(--xp-sectext);
+  --coreui-button-secondary-text--hover: var(--xp-sectext);
+  --coreui-button-secondary-icon: var(--xp-sectext);
+  --coreui-button-secondary-border: var(--xp-secedge);
+  --coreui-button-secondary-border--hover: var(--xp-secedge);
+
+  /* data-viz card */
+  --theme_data-surface-1_on-color-1: var(--xp-content);           /* the chart tooltip's text */
+  --theme_data-surface-1_on-color-2: var(--xp-title);             /* legend item names = TITLE, like the card heading (DC, 2026-09-14) */
+  --theme_data-surface-1_on-color-3: var(--xp-fill);              /* the legend dot's ring */
+  --theme_data-surface-2_color-1: var(--xp-fill);                 /* the chart tooltip */
+}
+/* headings wear the TITLE role. CORE UI gives the data-viz card's <h3> and the card's header no colour of their own —
+   they inherit the surface text (content) — so the role is set on the element, as the experiment's own card does. */
+.dh-preview.dh-themed .Core-DataViz-Card-header h3, .dh-preview.dh-themed .Core-Card-header { color: var(--xp-title); }
+/* the legend's COUNT beside the name: the same role as the name (DC, 2026-09-14) */
+.dh-preview.dh-themed .Core-DataViz-Legend-item-name .legend-item span + span { color: var(--xp-title); }
+/* the table's top-bar buttons wear the experiment's BUTTON roles (DC, 2026-09-14). CORE UI paints them from input tokens,
+   not button tokens: the selected view button = --coreui-input--selected, the filter buttons = --coreui-input-background.
+   Selected AND idle view = Primary button, and the filter buttons too (DC, 2026-09-14: all Primary; the selected state is carried
+   by CORE UI's own indicator, not by colour). */
+.dh-preview.dh-themed .Core-Segmented-Button.is-active, .dh-preview.dh-themed .Core-SegmentedGroup-selection-indicator {
+  background-color: var(--xp-sendfill); color: var(--xp-sendtext); fill: var(--xp-sendtext); border: 1px solid var(--xp-sendedge); }
+.dh-preview.dh-themed .Core-Segmented-Button:not(.is-active) { background-color: var(--xp-sendfill); color: var(--xp-sendtext); fill: var(--xp-sendtext); border: 1px solid var(--xp-sendedge); }
+.dh-preview.dh-themed coreui-filter .Core-Filter .Core-Filter-button { background-color: var(--xp-sendfill); border-color: var(--xp-sendedge); }
+.dh-preview.dh-themed coreui-filter .Core-Filter .Core-Filter-button .Core-Filter-buttonContent .Core-Filter-buttonContent-text, .dh-preview.dh-themed coreui-filter .Core-Filter .Core-Filter-button .Core-SVG { color: var(--xp-sendtext); fill: var(--xp-sendtext); }
+/* the status marks' LABEL text (the icon-with-text mark carries a hardcoded light-theme grey in data-health.css; the
+   lozenge, black) wears the experiment's content role — the Bar chart's legend and the table cells are built from these marks */
+.dh-preview.dh-themed .dh-status--icon, .dh-preview.dh-themed .dh-status--lozenge { color: var(--xp-content); }
+/* the Bar chart's own text — axis numbers, axis titles, month labels and its legend labels — wears the experiment's
+   "Version + muted meta" role (DC, 2026-09-14). CORE UI paints the axis text from the tooltip-text token, so the
+   element is targeted; the Radial's legend is Title (the on-color-2 token above). */
+.dh-preview.dh-themed > .dh-surface .Core-DataViz-Axis text { color: var(--xp-meta); fill: var(--xp-meta); }
+.dh-preview.dh-themed > .dh-surface .Core-DataViz-Axis .domain, .dh-preview.dh-themed > .dh-surface .Core-DataViz-Axis .tick line { stroke: var(--xp-meta); }
+.dh-preview.dh-themed > .dh-surface .Core-DataViz-Axis .Core-DataViz-Axis-border { fill: var(--xp-meta); }   /* the second, thicker x-axis bar (a 4px rect CORE UI fills from the surface token) — meta as well */   /* the baseline under the bars = Version + muted meta (DC, 2026-09-14) */
+.dh-preview.dh-themed coreui-sb-stacked-vertical-bar .Core-DataViz-Legend .dh-status--icon { color: var(--xp-title); }   /* legend labels = TITLE, like the card heading (DC, 2026-09-14); axis titles stay meta like the ticks */
+/* the card's icon circle wears the experiment's ICON role and the glyph inside is KNOCKED OUT of it — painted in the surface's
+   own fill so the shape reads as a hole (DC, 2026-09-14). The status badge that overlaps the circle keeps its status colour. */
+.dh-preview.dh-themed .Core-Card .Core-Card-iconContainer { background-color: var(--xp-icon); }
+.dh-preview.dh-themed .Core-Card .Core-Card-iconContainer .Core-SVG { fill: var(--xp-fill); color: var(--xp-fill); }
+/* the card's Footer button is CORE UI's plain (primary) button; under a swatch it wears the SECONDARY button (DC, 2026-09-14) */
+.dh-preview.dh-themed .Core-Card .Core-Button:not([class*="--"]) { background: var(--xp-secfill); color: var(--xp-sectext); fill: var(--xp-sectext); border-color: var(--xp-secedge); }
+/* the column headers' sort and filter glyphs at REST wear the SECONDARY button's edge (DC, 2026-09-14, corrected from the icon
+   role); CORE UI paints them from the plain table-icon token. Row glyphs (the ⋮ menu) are untouched. */
+/* the experiment's row recipe on the tables (DC, 2026-09-14): the group header's title wears TITLE (its status mark
+   otherwise takes the content rule above), row text is item body (token above), hover is the half-ground wash + cmedge outline. */
+.dh-preview.dh-themed .Core-Table-group-headerRow .dh-status--icon { color: var(--xp-title); }
+.dh-preview.dh-themed .Core-Table .text-style-muted-3 { color: var(--xp-meta); }   /* the row's small "by username" line = meta, like the experiment's secondary line */
+/* SORT BUTTONS = TITLE in every state (DC, 2026-09-14, replacing the Secondary treatment), with the experiment's button behaviour:
+   rest Title · hover Title + 12% lift · pressed 0.98 scale · sorted Title · focus ring Title. No fill in any state — CORE UI's
+   own hover would fill them. Covers the plain table's label+arrows button, the grouped table's arrows, sorted glyph and
+   asc/desc buttons — and the filter funnels, in every state (DC, 2026-09-14). */
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton .Core-Sort,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton:hover, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton:hover .Core-Sort,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton:active, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton:active .Core-Sort,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton.is-active, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton.is-active .Core-Sort,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-multipleHeaderColumnMenuButton, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-multipleHeaderColumnMenuButton:hover,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-multipleHeaderColumnMenuButton:active, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-multipleHeaderColumnMenuButton.is-active,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-multipleHeaderColumnMenuButton.is-sort-active,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerAscSortButton, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerDescSortButton,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerAscSortButton:hover, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerDescSortButton:hover,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerAscSortButton.is-active, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerDescSortButton.is-active,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-TableFilter-button, .dh-preview.dh-themed .Core-Table-headerRow .Core-TableFilter-button:hover,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-TableFilter-button:active, .dh-preview.dh-themed .Core-Table-headerRow .Core-TableFilter-button.is-active,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-TableFilter-button.is-filter-active {
+  color: var(--xp-title); fill: var(--xp-title); background-color: transparent; border-color: transparent; }
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton:hover, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-multipleHeaderColumnMenuButton:hover,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerAscSortButton:hover, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerDescSortButton:hover, .dh-preview.dh-themed .Core-Table-headerRow .Core-TableFilter-button:hover { filter: brightness(1.12); }
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton:active, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-multipleHeaderColumnMenuButton:active, .dh-preview.dh-themed .Core-Table-headerRow .Core-TableFilter-button:active { transform: scale(0.98); filter: none; }
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerSortButton:focus, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-multipleHeaderColumnMenuButton:focus, .dh-preview.dh-themed .Core-Table-headerRow .Core-TableFilter-button:focus,
+.dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerAscSortButton.is-focused, .dh-preview.dh-themed .Core-Table-headerRow .Core-Table-headerDescSortButton.is-focused {
+  outline-color: var(--xp-title); box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--xp-title) 40%, transparent); }
+/* the table's search box wears the experiment's tile recipe (DC, 2026-09-14): fill surface, edge border, content text,
+   meta placeholder — and the magnifier takes the ICON role. */
+.dh-preview.dh-themed .Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input { background-color: var(--xp-fill); border-color: var(--xp-edge); color: var(--xp-title); }   /* text + placeholder = TITLE (DC, 2026-09-14) */
+.dh-preview.dh-themed .Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-input::placeholder { color: var(--xp-title); }
+.dh-preview.dh-themed .Core-TableSearch .Core-TableSearch-inputWrapper .Core-TableSearch-iconWrapper .Core-TableSearch-searchIcon { color: var(--xp-icon); fill: var(--xp-icon); }
+/* two labels the token map never reached (DC, 2026-09-14): the filter group's "Type" label (CORE UI paints it from the DISABLED
+   icon tokens, hence the pale box) and the "Campaigns" count label (no theme rule at all, so it was near-black on the stage).
+   Both wear TITLE; the label's box takes the fill surface so it stops reading as a disabled control. */
+.dh-preview.dh-themed .Core-FilterGroup .Core-FilterGroup-label { color: var(--xp-title); background-color: var(--xp-fill); }
+.dh-preview.dh-themed .campaign-totals { color: var(--xp-title); }
+.dh-preview.dh-themed .campaign-totals .Core-Badge, .dh-preview.dh-themed .campaign-totals .Core-Badge.Core-Badge-color--Slate.is-border { color: var(--xp-title); }   /* the count badge's number too */
+/* "Clear Filters" is CORE UI's TEXT button: Labels + text is its colour in EVERY state, and the states themselves follow the
+   family's button behaviour (the experiment's: hoverlift 12% brightness, pressscale 0.98, disabled = 40% + greyscale). CORE UI's
+   own hover/active would fill it with the primary button and white text — that is a filled button's recipe, not a text button's.
+   (DC, 2026-09-14) */
+.dh-preview.dh-themed .Core-Button.Core-Button--text-primary.clear-button,
+.dh-preview.dh-themed .Core-Button.Core-Button--text-primary.clear-button:hover,
+.dh-preview.dh-themed .Core-Button.Core-Button--text-primary.clear-button:active { color: var(--xp-content); fill: var(--xp-content); background: transparent; border-color: transparent; }
+.dh-preview.dh-themed .Core-Button.Core-Button--text-primary.clear-button:hover { filter: brightness(1.12); }
+.dh-preview.dh-themed .Core-Button.Core-Button--text-primary.clear-button:active { transform: scale(0.98); filter: none; }
+/* its focus ring is Labels + text as well (DC, 2026-09-14): the experiment's focus role is a lime in Experiment #1, the same family as the
+   Primary edge, so the ring read as a Primary outline on this text button. Every other control keeps the focus role. */
+.dh-preview.dh-themed .Core-Button.Core-Button--text-primary.clear-button:focus { outline-color: var(--xp-content); box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--xp-content) 40%, transparent); }
+.dh-preview.dh-themed .Core-Button.Core-Button--text-primary.clear-button:disabled,
+.dh-preview.dh-themed .Core-Button.Core-Button--text-primary.clear-button.is-disabled { color: var(--xp-content); fill: var(--xp-content); opacity: 0.4; filter: grayscale(1); }
+.dh-preview.dh-themed coreui-filter .Core-Filter .Core-Filter-label { color: var(--xp-title); }   /* the standalone filter's own label ("Status") — CORE UI's input-label token, a dark grey the map never touched */
+/* STATES of the top bar's Primary buttons (DC, 2026-09-14). CORE UI's hover reads input tokens (input-background--hover,
+   toggle-icon--hover) and an OPEN filter marks itself with input-border--selected; here hover is the experiment's own lift
+   (brightness, the experiment's hoverlift) on the Primary fill, and an open or selected filter keeps the Primary edge. */
+.dh-preview.dh-themed .Core-Segmented-Button:hover:not(.is-active),
+.dh-preview.dh-themed coreui-filter .Core-Filter .Core-Filter-button:hover { background-color: var(--xp-sendfill); color: var(--xp-sendtext); filter: brightness(1.12); }
+.dh-preview.dh-themed .Core-Segmented-Button:hover:not(.is-active) .Core-SVG,
+.dh-preview.dh-themed coreui-filter .Core-Filter .Core-Filter-button:hover .Core-Filter-buttonContent-text,
+.dh-preview.dh-themed coreui-filter .Core-Filter .Core-Filter-button:hover .Core-SVG { color: var(--xp-sendtext); fill: var(--xp-sendtext); }
+.dh-preview.dh-themed .Core-FilterGroup coreui-filter.is-active .Core-Filter.is-primary .Core-Filter-button,
+.dh-preview.dh-themed .Core-FilterGroup coreui-filter.is-selected .Core-Filter.is-primary .Core-Filter-button,
+.dh-preview.dh-themed .Core-FilterGroup coreui-filter.is-active + coreui-filter .Core-Filter.is-primary .Core-Filter-button,
+.dh-preview.dh-themed .Core-FilterGroup coreui-filter.is-selected + coreui-filter .Core-Filter.is-primary .Core-Filter-button { border-color: var(--xp-sendedge); border-left-color: var(--xp-sendedge) !important; filter: brightness(1.12); }
+/* a table row's hover outline: the experiment's cmedge (the experiment's row hover) */
+.dh-preview.dh-themed > .dh-surface tr.Core-Table-row:hover { outline: 1px solid var(--xp-cmedge); outline-offset: -1px; }
+
+/* ---- the swatch rail, under the page navigation (EXPERIMENT) ------------------------------------------------
+ * The experiment's own swatch tile: 32×26, 1px border, 4px radius, a −45° stripe of the
+ * theme's colours (the tile stripe), 5px apart, no label (the name is the tooltip), and the
+ * selected tile wears a 2px ring — here in the pager's selected blue instead of the editor's accent. */
+.dh-theme-rail { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 5px; margin-top: 6px; }
+.dh-swatch { width: 32px; height: 26px; padding: 0; border-radius: 4px; border: 1px solid var(--coreui-component-primary-border, #cfd4da);
+  overflow: hidden; cursor: pointer; display: flex; background: var(--coreui-component-primary-background, #fff); }
+.dh-swatch:hover { border-color: var(--coreui-button-primary-background, #0063e6); }
+.dh-swatch.is-selected { box-shadow: 0 0 0 2px var(--coreui-button-primary-background, #0063e6); }   /* the pager's selected blue */
+.dh-swatch .chips { flex: 1; }
+
+/* ---- STATUS OVERRIDE (DC, 2026-09-14): with a theme on, the Data Health status colours come from the experiment's
+   element-state roles — failed → disagreed · warning → warning · healthy → success · partial → cmedge ·
+   pending → cmedge tinted · unknown → meta · undefined → meta tinted. app.js computes --dh-c-<status> on the
+   preview from the theme (the charts, glow and tooltip read the same values); these rules re-point the icons'
+   inline fills and the lozenges. The icon SVGs paint partial/pending with one blue and unknown/undefined with one
+   purple, so the fill is matched inside the status's own wrapper. */
+.dh-preview.dh-themed .dh-status--failed    svg [fill="#F10E34"], .dh-preview.dh-themed [data-key="failed"]    svg [fill="#F10E34"] { fill: var(--dh-c-failed); }
+.dh-preview.dh-themed .dh-status--warning   svg [fill="#FFBF00"], .dh-preview.dh-themed [data-key="warning"]   svg [fill="#FFBF00"] { fill: var(--dh-c-warning); }
+.dh-preview.dh-themed .dh-status--healthy   svg [fill="#27BC10"], .dh-preview.dh-themed [data-key="healthy"]   svg [fill="#27BC10"] { fill: var(--dh-c-healthy); }
+.dh-preview.dh-themed .dh-status--partial   svg [fill="#0063E6"], .dh-preview.dh-themed [data-key="partial"]   svg [fill="#0063E6"] { fill: var(--dh-c-partial); }
+.dh-preview.dh-themed .dh-status--pending   svg [fill="#0063E6"], .dh-preview.dh-themed [data-key="pending"]   svg [fill="#0063E6"] { fill: var(--dh-c-pending); }
+.dh-preview.dh-themed .dh-status--unknown   svg [fill="#8E60D2"], .dh-preview.dh-themed [data-key="unknown"]   svg [fill="#8E60D2"] { fill: var(--dh-c-unknown); }
+.dh-preview.dh-themed .dh-status--undefined svg [fill="#8E60D2"], .dh-preview.dh-themed [data-key="undefined"] svg [fill="#8E60D2"] { fill: var(--dh-c-undefined); }
+/* lozenges: the dark recipe (status colour 18% into the fill, full-colour border), in the theme's colours */
+.dh-preview.dh-themed .dh-status--lozenge.dh-status--failed    { background: color-mix(in srgb, var(--dh-c-failed) 18%, var(--xp-fill));    border-color: var(--dh-c-failed); }
+.dh-preview.dh-themed .dh-status--lozenge.dh-status--warning   { background: color-mix(in srgb, var(--dh-c-warning) 18%, var(--xp-fill));   border-color: var(--dh-c-warning); }
+.dh-preview.dh-themed .dh-status--lozenge.dh-status--healthy   { background: color-mix(in srgb, var(--dh-c-healthy) 18%, var(--xp-fill));   border-color: var(--dh-c-healthy); }
+.dh-preview.dh-themed .dh-status--lozenge.dh-status--partial   { background: color-mix(in srgb, var(--dh-c-partial) 18%, var(--xp-fill));   border-color: var(--dh-c-partial); }
+.dh-preview.dh-themed .dh-status--lozenge.dh-status--pending   { background: color-mix(in srgb, var(--dh-c-pending) 18%, var(--xp-fill));   border-color: var(--dh-c-pending); }
+.dh-preview.dh-themed .dh-status--lozenge.dh-status--unknown   { background: color-mix(in srgb, var(--dh-c-unknown) 18%, var(--xp-fill));   border-color: var(--dh-c-unknown); }
+.dh-preview.dh-themed .dh-status--lozenge.dh-status--undefined { background: color-mix(in srgb, var(--dh-c-undefined) 18%, var(--xp-fill)); border-color: var(--dh-c-undefined); }

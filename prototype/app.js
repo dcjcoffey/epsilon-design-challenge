@@ -13,12 +13,12 @@
 const NARROWING = false;
 const PAGES = [
   { key: 'table', name: 'Table' },
-  { key: 'tableGroups', name: 'Table w/ Group Headers' },
+  { key: 'tableGroups', name: 'Table w/Group Headers' },
   { key: 'card', name: 'Card' },
-  { key: 'dash', name: 'Dashboard Summary: Radial' },
-  { key: 'dashBar', name: 'Dashboard Summary: Bar' },
+  { key: 'dash', name: 'Dashboard Radial' },
+  { key: 'dashBar', name: 'Dashboard Bar' },
 ];
-const defaults = () => ({ option: 'A', render: 'icon', filter: null, page: 'table' });
+const defaults = () => ({ option: 'A', render: 'icon', filter: null, page: 'table', loop: motionDefaults().loop, off: [] });   // off: legend items toggled off (CORE UI's legend behaviour)   // loop's default is saved with the motion table
 let S = defaults();
 
 const el = (id) => document.getElementById(id);
@@ -61,7 +61,53 @@ const statusCell = (key) => S.render === 'lozenge' ? statusMark(key) : statusIco
 /* ---- controls panel ------------------------------------------------------------------------ */
 function renderControls() {
   el('controlsMount').innerHTML = radioGroup('option', 'Option', OPTIONS.map((o) => ({ value: o.key, label: o.label })), S.option)
-    + radioGroup('render', 'UI Style', [{ value: 'icon', label: 'Icon' }, { value: 'lozenge', label: 'Lozenge' }], S.render);
+    + radioGroup('render', 'UI Style', [{ value: 'icon', label: 'Icon' }, { value: 'lozenge', label: 'Lozenge' }], S.render)
+    + (S.page === 'dash' ? motionControls() : '');
+}
+// Motion controls (Radial page only): sliders over the motion table's ring tracks, CORE UI's easing names, loop, replay.
+function motionControls() {
+  const tr = MOTION.radialEnter.tracks, ring = tr.find((t) => t.element === 'ring'), rows = tr.find((t) => t.element === 'legendRow'), rise = tr.find((t) => t.property === 'translateY'), glow = tr.find((t) => t.property === 'glow');
+  const lift = tr.find((t) => t.trigger === 'hover' && t.property === 'liftOut');
+  const urgent = tr.find((t) => t.element === 'urgentIcon'), urgentBounce = tr.find((t) => t.element === 'urgentIcon' && t.property === 'translateY'), urgentGlow = tr.find((t) => t.element === 'urgentIcon' && t.property === 'glow');
+  // each block is a collapsible section; which ones are open is remembered per section (DC: the deck ran off screen)
+  const section = (key, label, inner) => `<details class="dh-motion-section" data-section="${key}" ${MOTION_OPEN[key] ? 'open' : ''} data-dh="motion controls"><summary class="dh-ctl-label">${label}</summary>${inner}</details>`;
+  // each slider carries a hollow ring at the SAVED default's position (DC): the thumb fits into it when at default
+  const slider = (key, label, value, min, max, step, unit) => { const d = defaultFor(key), pct = d === null ? null : Math.min(1, Math.max(0, (d - min) / (max - min)));
+    return `<div class="Core-FormField has-bottom-margin dh-motion-field" data-dh="motion control">
+      <label class="Core-FormField-label"><span class="Core-FormField-labelValue">${label} <output>${value}${unit}</output></span>
+      <span class="dh-range-wrap"><span class="dh-range-track"></span>${pct === null ? '' : `<span class="dh-range-default" style="left: calc(8px + (100% - 16px) * ${pct.toFixed(4)})" title="Saved default: ${d}${unit}"></span>`}<input type="range" class="dh-range" data-motion="${key}" min="${min}" max="${max}" step="${step}" value="${value}" data-unit="${unit}"></span></label></div>`; };
+  return `<fieldset class="Core-RadioGroup Core-RadioGroup--vertical has-bottom-margin dh-motion" data-dh="motion controls"><legend class="Core-RadioGroup-label"><span>Motion · ${MOTION.radialEnter.name}</span></legend>
+    <div class="Core-RadioGroup-content">
+      <div class="dh-motion-actions"><button type="button" class="Core-Button is-ready dh-replay" data-motion="replay" data-dh="motion control">Replay</button>
+        <button type="button" class="Core-Button Core-Button--secondary is-ready dh-save" data-motion="save" data-dh="motion control">Save</button></div>
+      <div class="dh-motion-saved" id="motionSaved" aria-live="polite"></div>
+      <div class="Core-FormField has-bottom-margin dh-motion-field" data-dh="motion control"><label class="Core-FormField-label">
+        <input type="checkbox" class="Core-Checkbox-input is-ready" data-motion="loop" ${S.loop ? 'checked' : ''}><span class="Core-FormField-labelValue">Loop (hold ${MOTION.loopHold} ms)</span></label></div>
+      ${section('ring', 'Ring', `
+      ${slider('ring.duration', 'Duration', ring.duration, 100, 1500, 50, ' ms')}
+      ${slider('ring.delay', 'Delay after title', ring.delay, 0, 1000, 50, ' ms')}
+      <div class="Core-FormField has-bottom-margin dh-motion-field" data-dh="motion control"><label class="Core-FormField-label"><span class="Core-FormField-labelValue">Easing</span>
+        <div class="select-container"><select class="dh-easing" data-motion="ring.easing">${Object.keys(EASINGS).map((k) => `<option value="${k}" ${k === ring.easing ? 'selected' : ''}>${EASING_LABELS[k]}</option>`).join('')}</select></div></label></div>`)}
+      ${section('legendRow', 'Legend rows', `
+      ${slider('legendRow.duration', 'Duration', rows.duration, 100, 1500, 50, ' ms')}
+      ${slider('legendRow.delay', 'Delay after ring', rows.delay, 0, 2000, 50, ' ms')}
+      ${slider('legendRow.stagger', 'Stagger', rows.stagger, 0, 300, 10, ' ms')}
+      ${slider('legendRow.from', 'Rise', rise.from, 0, 48, 2, ' px')}`)}
+      ${section('segment', 'Ring glow', `
+      ${slider('segment.duration', 'Duration', glow.duration, 100, 1500, 50, ' ms')}
+      ${slider('segment.delay', 'Delay after ring', glow.delay, -1000, 1000, 50, ' ms')}
+      ${slider('segment.stagger', 'Stagger', glow.stagger, 0, 400, 10, ' ms')}
+      ${slider('segment.to:glow', 'Glow size', glow.to, 0, 24, 1, ' px')}`)}
+      ${section('urgentIcon', 'Urgent icons', `
+      ${slider('urgentIcon.duration', 'Duration', urgent.duration, 100, 1500, 50, ' ms')}
+      ${slider('urgentIcon.delay', 'Delay after rows', urgent.delay, -1000, 1000, 50, ' ms')}
+      ${slider('urgentIcon.stagger', 'Stagger', urgent.stagger, 0, 400, 10, ' ms')}
+      ${slider('urgentIcon.to:translateY', 'Bounce', -urgentBounce.to, 0, 24, 1, ' px').replace('data-unit=" px"', 'data-unit=" px" data-negate="1"')}
+      ${slider('urgentIcon.to:glow', 'Glow size', urgentGlow.to, 0, 24, 1, ' px')}`)}
+      ${section('hoverSegment', 'Segment hover', `
+      ${slider('hoverSegment.to', 'Lift out', lift.to, 0, 24, 1, ' px')}
+      ${slider('hoverSegment.duration', 'Duration', lift.duration, 50, 1000, 50, ' ms')}`)}
+    </div></fieldset>`;
 }
 
 /* ---- dashboard summary ---------------------------------------------------------------------
@@ -77,8 +123,9 @@ function renderControls() {
 const chartTip = (bar) => `<coreui-dataviz-tooltip><coreui-panel overlaystyle="none" class="Core-DataViz-Tooltip-panel dh-chart-tip" data-dh="placed by app.js"><div class="Core-Panel-content is-visible"><div class="Core-DataViz-Tooltip-content">
     <div class="tooltip"><div class="tooltip-color"></div><div class="tooltip-display"><span class="${bar ? 'tooltip-yvalue' : 'tooltip-xvalue'} dh-tip-value"></span><span class="${bar ? 'tooltip-series-name' : 'tooltip-yvalue'} dh-tip-label"></span></div></div>
   </div></div></coreui-panel></coreui-dataviz-tooltip>`;
-const legendItem = (key, inner) => `<div class="Core-DataViz-Legend-item ${S.filter === key ? 'is-selected' : ''}">
-    <button type="button" coreuibutton="text-primary" tabindex="0" class="Core-Button Core-Button--text-primary is-ready" data-key="${key}"${NARROWING ? ` aria-pressed="${S.filter === key}" data-dh="click narrows the table"` : ''}>${inner}</button></div>`;
+// CORE UI's legend: clicking an item toggles its series off (the segment leaves the chart, the item takes is-disabled)
+const legendItem = (key, inner) => `<div class="Core-DataViz-Legend-item ${S.filter === key ? 'is-selected' : ''} ${S.off.includes(key) ? 'is-disabled' : ''}">
+    <button type="button" coreuibutton="text-primary" tabindex="0" class="Core-Button Core-Button--text-primary is-ready" data-key="${key}" aria-pressed="${!S.off.includes(key)}" data-dh="click toggles the state off and on (their legend's behaviour)">${inner}</button></div>`;
 
 function renderDash() {
   for (const id of ['dash', 'dashBar']) el(id).classList.toggle('dh-narrowing', NARROWING);   // the pointer cursor promises a click only when one works
@@ -88,28 +135,29 @@ function renderDash() {
 
 function radialDash() {
   const counts = STATUSES.map((s) => ({ s, n: FLEET[s.key] }));
-  const total = counts.reduce((sum, c) => sum + c.n, 0);
+  const shown = counts.filter((c) => !S.off.includes(c.s.key));   // toggled-off states leave the ring; the legend keeps every row
+  const total = shown.reduce((sum, c) => sum + c.n, 0);
   const R1 = 86.5, R0 = 70, PAD = 0.0225;   // half-gap between slices, radians
   const pt = (r, a) => `${(r * Math.sin(a)).toFixed(3)},${(-r * Math.cos(a)).toFixed(3)}`;
   let a0 = 0;
-  const slices = counts.filter((c) => c.n > 0).map((c) => {
+  const slices = shown.filter((c) => c.n > 0).map((c) => {
     const a1 = a0 + (c.n / total) * 2 * Math.PI;
     const s0 = a0 + PAD, s1 = a1 - PAD, big = s1 - s0 > Math.PI ? 1 : 0, mid = (a0 + a1) / 2;
     const d = `M${pt(R1, s0)}A${R1},${R1},0,${big},1,${pt(R1, s1)}L${pt(R0, s1)}A${R0},${R0},0,${big},0,${pt(R0, s0)}Z`;
     const [cx, cy] = pt((R0 + R1) / 2, mid).split(',');
     a0 = a1;
     return `<circle class="Core-DataViz-DonutSeriesPoint" cx="${cx}" cy="${cy}" r="8"></circle>
-      <path d="${d}" class="Core-DataViz-DonutSeries ${S.filter === c.s.key ? 'is-active' : ''}" style="fill: ${c.s.hex};" data-key="${c.s.key}" data-n="${c.n}"></path>`;
+      <path d="${d}" class="Core-DataViz-DonutSeries ${S.filter === c.s.key ? 'is-active' : ''}" style="fill: ${statusHex(c.s.key)};" data-key="${c.s.key}" data-n="${c.n}" data-mid="${mid.toFixed(4)}"></path>`;
   }).join('');
   // icon: the icon takes the legend's colour slot, name and count beside it. lozenge: the pill replaces slot + name.
   const legend = counts.map(({ s, n }) => legendItem(s.key, S.render === 'lozenge'
-    ? `<div class="dh-legend-lozenge" data-dh="status lozenge">${statusMark(s.key)}<coreui-dataviz-series-name><div aria-label="${s.label} ${n}" class="legend-item"><span>${n}</span></div></coreui-dataviz-series-name></div>`
+    ? `<div class="Core-DataViz-Legend-item-name dh-legend-lozenge" data-dh="status lozenge in the name slot"><coreui-dataviz-series-name><div aria-label="${s.label} ${n}" class="legend-item"><span>${statusMark(s.key)}</span><span>${n}</span></div></coreui-dataviz-series-name></div>`
     : `<div class="Core-DataViz-Legend-item-color dh-legend-icon" data-dh="status icon">${iconEl(s.key)}</div>
         <div class="Core-DataViz-Legend-item-name"><coreui-dataviz-series-name><div aria-label="${s.label} ${n}" class="legend-item"><span>${s.label}</span><span>${n}</span></div></coreui-dataviz-series-name></div>`)).join('');
   return `<coreui-dataviz-card header="Data Health"><div class="Core-DataViz-Card">
     <div class="Core-DataViz-Card-header"><h3>Data Health</h3><div class="Core-DataViz-Card-info"></div></div>
     <coreui-dataviz-portal data-qa="data-viz-donut" class="is-vertical"><div class="Core-DataViz-Portal">
-      <svg class="Core-DataViz-Portal-Viz" width="175" height="175" viewBox="0 0 175 175" role="img" data-dh="ring drawn by app.js" aria-label="${total} sources by Data Health status"><g class="Core-DataViz-Series-container" transform="translate(87.5, 87.5)" style="cursor: default;">${slices}</g></svg></div>
+      <svg class="Core-DataViz-Portal-Viz" width="175" height="175" viewBox="0 0 175 175" role="img" data-dh="ring drawn by app.js" aria-label="${total} sources by Data Health status"><g class="Core-DataViz-Series-container" transform="translate(87.5, 87.5)" style="cursor: default;"><g class="dh-ring" data-dh="ring · animated from motion.js">${slices}</g></g></svg></div>
       <coreui-dataviz-legend position="right"><div class="Core-DataViz-Legend is-vertical">${legend}</div></coreui-dataviz-legend>
       ${chartTip(false)}
     </coreui-dataviz-portal></div></coreui-dataviz-card>`;
@@ -118,7 +166,7 @@ function radialDash() {
 function barDash() {
   const W = 860, LEFT = 76, TOP = 40, BASE = 278, MAX = 500, STEP = W / (BAR_MONTHS.length - 0.5), BAR = STEP / 2, GAP = 2;
   const y = (v) => BASE - (v / MAX) * (BASE - TOP);
-  const stackOrder = [...STATUSES].reverse();   // worst on top
+  const stackOrder = [...STATUSES].reverse().filter((s) => !S.off.includes(s.key));   // worst on top; toggled-off series leave the stacks
   const tops = BAR_MONTHS.map(() => BASE);
   const series = stackOrder.map((s) => {
     const rects = BAR_MONTHS.map((m, i) => {
@@ -127,7 +175,7 @@ function barDash() {
       const h = bottom - top - (bottom < BASE ? GAP : 0);
       return `<rect x="${(LEFT + i * STEP).toFixed(2)}" y="${top.toFixed(2)}" height="${h.toFixed(2)}" width="${BAR.toFixed(2)}" data-name="${m.month}" data-key="${s.key}" data-n="${n}" style="cursor: default;"${S.filter === s.key ? ' class="is-active"' : ''}></rect>`;
     }).join('');
-    return `<g class="Core-DataViz-VerticalBarSeries" fill="${s.hex}">${rects}</g>`;
+    return `<g class="Core-DataViz-VerticalBarSeries" fill="${statusHex(s.key)}">${rects}</g>`;
   }).join('');
   const xTicks = BAR_MONTHS.map((m, i) => `<g class="tick" opacity="1" transform="translate(${(i * STEP + BAR / 2).toFixed(2)},0)"><line stroke="currentColor" y2="0"></line><text fill="currentColor" y="16" dy="0.71em">${m.month}</text></g>`).join('');
   const yTicks = [0, 100, 200, 300, 400, 500].map((v) => `<g class="tick" opacity="1" transform="translate(0, ${(y(v) - TOP + 0.5).toFixed(2)})"><line stroke="currentColor" x2="0"></line><text fill="currentColor" x="-20" dy="0.32em">${v}</text></g>`).join('');
@@ -212,12 +260,14 @@ function renderSurfaces() {
     ? 'M7.9,12c0-.2,0-.4.1-.5,0-.2.2-.3.3-.4l5.7-5.7c.2-.2.6-.4.9-.3.3,0,.6.2.9.4.2.3.3.6.3.9,0,.3-.2.7-.4.9l-4.7,4.7,4.7,4.7c.2.2.4.6.4.9,0,.3-.1.7-.3.9-.2.3-.5.4-.9.4-.3,0-.6-.1-.9-.3l-5.7-5.7c-.1-.1-.2-.3-.3-.4,0-.2-.1-.3-.1-.5Z'
     : 'M16.1,12c0-.2,0-.4-.1-.5,0-.2-.2-.3-.3-.4l-5.7-5.7c-.2-.2-.6-.4-.9-.3-.3,0-.6.2-.9.4-.2.3-.3.6-.3.9,0,.3.2.7.4.9l4.7,4.7-4.7,4.7c-.2.2-.4.6-.4.9,0,.3.1.7.3.9.2.3.5.4.9.4.3,0,.6-.1.9-.3l5.7-5.7c.1-.1.2-.3.3-.4,0-.2.1-.3.1-.5Z'}"/></svg></div>`;
   el('pager').innerHTML = `<coreui-pagination><nav aria-label="Preview pages" class="Core-Pagination">
-    <button type="button" coreuibutton="icon" aria-label="Previous" class="Core-PaginationLeft Core-Button Core-Button--icon is-ready" data-turn="-1" ${i === 0 ? 'disabled' : ''}>${chev('Left')}</button>
+    <button type="button" coreuibutton="icon" aria-label="Previous" class="Core-PaginationLeft Core-Button Core-Button--icon is-ready" data-turn="-1">${chev('Left')}</button>
     ${PAGES.map((p, n) => `<button type="button" coreuibutton="icon" class="Core-PaginationItem ${p.key === S.page ? 'is-active' : ''} Core-Button Core-Button--icon is-ready" data-page="${p.key}" ${p.key === S.page ? 'aria-current="page"' : ''} aria-label="${p.name}">${n + 1}</button>`).join('')}
-    <button type="button" coreuibutton="icon" aria-label="Next" class="Core-PaginationRight Core-Button Core-Button--icon is-ready" data-turn="1" ${i === PAGES.length - 1 ? 'disabled' : ''}>${chev('Right')}</button>
+    <button type="button" coreuibutton="icon" aria-label="Next" class="Core-PaginationRight Core-Button Core-Button--icon is-ready" data-turn="1">${chev('Right')}</button>
   </nav></coreui-pagination>`;
 }
-function turn(delta) { const i = PAGES.findIndex((p) => p.key === S.page); const n = i + delta; if (n < 0 || n >= PAGES.length) return; S.page = PAGES[n].key; renderAll(); }
+// the pager WRAPS: Previous on the first page goes to the last, Next on the last to the first, and neither arrow ever disables
+// (DC, 2026-09-14 — deliberately not CORE UI's stop-at-the-ends behaviour)
+function turn(delta) { const i = PAGES.findIndex((p) => p.key === S.page); const n = (i + delta + PAGES.length) % PAGES.length; S.page = PAGES[n].key; renderAll(); }
 
 /* ---- Show code: the live HTML of the page on show, exactly as it stands in the DOM, formatted and coloured ------- */
 const VOID_TAGS = new Set(['input', 'col', 'br', 'img', 'hr', 'path', 'circle', 'rect', 'line', 'polygon', 'use']);
@@ -253,17 +303,145 @@ function renderCode() {
   el('codeCount').textContent = `${total} lines · ${total - ours} CORE UI · ${ours} Data Health (marked data-dh)`;
 }
 
-function renderAll() { renderControls(); renderDash(); renderTable(); renderCards(); renderSurfaces(); renderCode(); }
+function renderAll() { renderControls(); renderDash(); renderTable(); renderCards(); renderSurfaces(); renderCode(); playMotion(); }
+
+/* ---- motion: plays the motion table (motion.js) on the Radial's ring ------------------------
+ * One Web Animation per track. With Loop on, the finished state holds for MOTION.loopHold, then the motion replays.
+ * Reduced motion collapses the whole thing to 1 ms, as CORE UI's rule does for its own transitions. */
+let RING_ANIMS = [];
+function playMotion() {
+  for (const a of RING_ANIMS) a.cancel();
+  RING_ANIMS = [];
+  if (S.page !== 'dash') return;
+  const dash = el('dash');
+  // the elements each track name resolves to; a track with `stagger` starts later on each successive element
+  const segs = [...dash.querySelectorAll('.dh-ring path[data-key]')];
+  const targets = (t) => ({
+    ring: [dash.querySelector('.dh-ring')],
+    legendRow: [...dash.querySelectorAll('.Core-DataViz-Legend-item')],
+    title: [dash.querySelector('.Core-DataViz-Card-header h3')],
+    segment: (t.order || []).map((k) => segs.find((p) => p.dataset.key === k)),   // in the track's own order
+    urgentIcon: (t.order || []).map((k) => dash.querySelector(`.Core-DataViz-Legend-item [data-key="${k}"] .dh-icon`)),   // the legend icons of the urgent states
+  })[t.element] || [];
+  const jobs = [];   // one per (track, element): the concrete start time
+  const ends = {};   // when each element's own tracks finish — a track with `after: 'ring'` starts once the ring is at rest
+  const lift = hoverTrack('liftOut');
+  if (lift) { dash.style.setProperty('--dh-lift-ms', `${lift.duration}ms`); dash.style.setProperty('--dh-lift-ease', EASINGS[lift.easing]); }
+  const tracks = [...MOTION.radialEnter.tracks].filter((t) => !t.trigger).sort((a, b) => (a.after ? 1 : 0) - (b.after ? 1 : 0));
+  for (const t of tracks) targets(t).forEach((node, i) => {
+    if (!node) return;
+    const start = Math.max(0, (t.after ? ends[t.after] || 0 : 0) + t.delay + i * (t.stagger || 0));   // a negative delay reaches back into the ring; never before 0
+    jobs.push({ t, node, start });
+    ends[t.element] = Math.max(ends[t.element] || 0, start + t.duration);
+  });
+  if (!jobs.length) return;
+  const end = Math.max(...jobs.map((j) => j.start + j.t.duration));
+  const total = end + (S.loop ? MOTION.loopHold : 0);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // scale, rotate and translateY use CSS's individual transform properties, so tracks animate on their own without
+  // fighting; glow is a drop-shadow in the segment's own colour, its size in px
+  // the hover's selected look (shell.css .is-active) takes its dim from the segment opacity track, so both match (DC)
+  const dim = MOTION.radialEnter.tracks.find((t) => t.element === 'segment' && t.property === 'opacity');
+  dash.style.setProperty('--dh-selected-opacity', dim ? dim.to : 0.35);
+  const css = (t, v, node) => ({
+    scale: { scale: `${v}` }, rotate: { rotate: `${v}deg` }, translateY: { translate: `0 ${v}px` },
+    // a slice LIGHTS UP by colour (its status colour lifted toward white by the track's dim amount) rather than going see-through:
+    // a drop-shadow inherits the element's alpha, so a transparent slice made the halo muddy, and a blend toward the stage
+    // went near-black in Dark (DC, 2026-09-14, ring only; "slice brightens" chosen over halo-only and CORE UI's dim). Same in
+    // every theme. The hover's own selected look (opacity, shell.css) is untouched.
+    opacity: node instanceof SVGPathElement ? { fill: `color-mix(in srgb, ${statusHex(node.dataset.key)} ${Math.round(v * 100)}%, white)` } : { opacity: v },
+    glow: { filter: `drop-shadow(0 0 ${v}px ${(() => { const k = node.dataset.key || node.closest('[data-key]')?.dataset.key; return k && STATUS[k] ? statusHex(k) : 'currentColor'; })()})` },
+  })[t.property] || { [t.property]: v };
+  RING_ANIMS = jobs.map(({ t, node, start }) => node.animate(t.pulse
+    ? [   // out and back: from → to at the midpoint → from
+      { offset: 0, ...css(t, t.from, node) },
+      { offset: start / total, ...css(t, t.from, node), easing: EASINGS[t.easing] },
+      { offset: (start + t.duration / 2) / total, ...css(t, t.to, node), easing: EASINGS[t.easing] },
+      { offset: (start + t.duration) / total, ...css(t, t.from, node) },
+      { offset: 1, ...css(t, t.from, node) },
+    ] : [
+      { offset: 0, ...css(t, t.from, node) },
+      { offset: start / total, ...css(t, t.from, node), easing: EASINGS[t.easing] },
+      { offset: (start + t.duration) / total, ...css(t, t.to, node) },
+      { offset: 1, ...css(t, t.to, node) },
+    ], { duration: reduce ? 1 : total, iterations: S.loop ? Infinity : 1, fill: t.pulse ? 'none' : 'forwards' }));   // a pulse ends where it began, so it lets go of the element
+}
+// Slider and select changes write into the motion table and replay; nothing else re-renders, so the control keeps focus.
+el('controlsMount').addEventListener('input', (e) => {
+  const key = e.target.dataset.motion; if (!key || key === 'loop' || key === 'replay') return;
+  const [group, rest] = key.split('.'), [field, onlyProp] = rest.split(':');   // "<element>.<field>[:<property>]": ring.duration, legendRow.from (the rise), segment.to:glow…
+  const raw = field === 'easing' ? e.target.value : Number(e.target.value);
+  const v = e.target.dataset.negate ? -raw : raw;   // a "Bounce" of 6 px is a translateY of −6
+  for (const t of MOTION.radialEnter.tracks) {
+    const linked = t.matches === group && (field === 'duration' || field === 'from');   // the title follows the rows' duration and rise (DC)
+    if (t.element !== group && !linked) continue;
+    if (onlyProp && t.property !== onlyProp) continue;               // a slider aimed at one property of the element
+    if (field === 'easing' && t.property === 'opacity') continue;     // the fades stay linear (DC)
+    if (field === 'from' && t.property !== 'translateY') continue;    // the rise slider moves only the rise track
+    t[field] = v;
+  }
+  const out = e.target.closest('label')?.querySelector('output'); if (out) out.textContent = `${raw}${e.target.dataset.unit || ''}`;
+  playMotion();
+});
+el('controlsMount').addEventListener('click', (e) => {
+  const key = e.target.closest('[data-motion]')?.dataset.motion;
+  if (key === 'replay') playMotion();
+  if (key === 'save') saveMotion();
+});
+// The saved default behind a slider key — the value in motion.js's SAVED block (what Save last wrote)
+function defaultFor(key) {
+  const [group, rest] = key.split('.'), [field, onlyProp] = rest.split(':');
+  const t = motionDefaults().radialEnter.tracks.find((t) => t.element === group && (!onlyProp || t.property === onlyProp) && (field !== 'from' || t.property === 'translateY'));
+  if (!t || t[field] === undefined || typeof t[field] !== 'number') return null;
+  return group === 'urgentIcon' && onlyProp === 'translateY' && field === 'to' ? -t[field] : t[field];   // Bounce shows as a positive height
+}
+/* ---- saving DC's tuned values: in the browser (survives reloads) and, on the dev server, INTO motion.js as the new
+ * defaults (the server rewrites the SAVED block). The reset arrow clears the browser store and returns to the defaults.
+ * On the published copy there is no server, so Save is browser-only there. */
+const MOTION_STORE = 'dh-motion';
+const MOTION_OPEN_STORE = 'dh-motion-open';
+let MOTION_OPEN = { ring: true };   // which deck sections are open; Ring open by default, the rest closed
+try { MOTION_OPEN = { ...MOTION_OPEN, ...JSON.parse(localStorage.getItem(MOTION_OPEN_STORE) || '{}') }; } catch (e) {}
+el('controlsMount').addEventListener('toggle', (e) => {   // 'toggle' does not bubble: listen in the capture phase
+  const d = e.target; if (!d.matches?.('.dh-motion-section')) return;
+  MOTION_OPEN[d.dataset.section] = d.open;
+  try { localStorage.setItem(MOTION_OPEN_STORE, JSON.stringify(MOTION_OPEN)); } catch (e) {}
+}, true);
+function motionSnapshot() { return { savedAt: new Date().toISOString(), loop: S.loop, loopHold: MOTION.loopHold, tracks: MOTION.radialEnter.tracks }; }
+function restoreMotion() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(MOTION_STORE) || 'null'); if (!saved) return;
+    const tr = MOTION.radialEnter.tracks;
+    if (saved.tracks?.length === tr.length) saved.tracks.forEach((s, i) => { if (s.element === tr[i].element && s.property === tr[i].property) Object.assign(tr[i], s); });
+    if (typeof saved.loop === 'boolean') S.loop = saved.loop;
+  } catch (e) {}
+}
+async function saveMotion() {
+  const snap = motionSnapshot(), note = el('motionSaved');
+  try { localStorage.setItem(MOTION_STORE, JSON.stringify(snap)); } catch (e) {}
+  try {
+    const r = await fetch('motion-save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(snap, null, 2) });
+    note.textContent = r.ok ? 'Saved — these are now the defaults (motion.js)' : 'Saved in this browser only';
+    if (r.ok) { SAVED.loopHold = snap.loopHold; SAVED.loop = snap.loop; SAVED.tracks = JSON.parse(JSON.stringify(snap.tracks)); renderControls(); el('motionSaved').textContent = 'Saved — these are now the defaults (motion.js)'; }
+  } catch (e) { note.textContent = 'Saved in this browser only'; }
+}
 
 /* ---- events -------------------------------------------------------------------------------- */
 el('controlsMount').addEventListener('change', (e) => {
   if (e.target.name === 'option') { S.option = e.target.value; renderAll(); }
   if (e.target.name === 'render') { S.render = e.target.value; renderAll(); }
+  if (e.target.dataset.motion === 'loop') { S.loop = e.target.checked; playMotion(); }
 });
 const DASHES = [el('dash'), el('dashBar')];
 for (const d of DASHES) d.addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-key]'); if (!btn || !NARROWING) return;
-  S.filter = (S.filter === btn.dataset.key) ? null : btn.dataset.key;   // mark the state here; the Table shows it narrowed when you turn to it
+  const btn = e.target.closest('.Core-DataViz-Legend-item [data-key]');
+  if (btn) {   // CORE UI's legend toggle: the state leaves the chart and the item goes disabled; click again to bring it back
+    const k = btn.dataset.key; S.off = S.off.includes(k) ? S.off.filter((x) => x !== k) : [...S.off, k];
+    for (const an of RING_ANIMS) an.cancel(); RING_ANIMS = [];   // the chart is redrawn at rest; the entrance show does not replay
+    renderDash(); renderCode(); return;
+  }
+  const seg = e.target.closest('[data-key]'); if (!seg || !NARROWING) return;
+  S.filter = (S.filter === seg.dataset.key) ? null : seg.dataset.key;   // mark the state here; the Table shows it narrowed when you turn to it
   animateFilter();
 });
 el('pager').addEventListener('click', (e) => {
@@ -271,7 +449,49 @@ el('pager').addEventListener('click', (e) => {
   const p = e.target.closest('[data-page]'); if (p) { S.page = p.dataset.page; renderAll(); }
 });
 document.addEventListener('keydown', (e) => { if (e.target.matches('input, select, textarea, button')) return; if (e.key === 'ArrowLeft') turn(-1); if (e.key === 'ArrowRight') turn(1); });
-el('resetBtn').addEventListener('click', () => { S = { ...defaults(), page: S.page }; renderAll(); });   // resets the deck, keeps the current preview page
+el('resetBtn').addEventListener('click', () => { S = { ...defaults(), page: S.page }; MOTION = motionDefaults(); try { localStorage.removeItem(MOTION_STORE); } catch (e) {} renderAll(); });   // resets the deck, the motion table and the saved values; keeps the current preview page
+
+/* ---- EXPERIMENT: swatch rail (experiment-themes.js + theme-layer.css) — an experiment palette over the preview surfaces.
+ * Click a swatch to lay its six colours over CORE UI's tokens on the preview's components; click it again to take it
+ * off. The Light/Dark theme is left alone (DC). Remembered per browser. Everything here is marked data-dh="experiment". */
+const EXPERIMENT_STORE = 'dh-experiment-theme';
+let EXPERIMENT_ACTIVE = null; try { EXPERIMENT_ACTIVE = localStorage.getItem(EXPERIMENT_STORE) || null; } catch (e) {}
+if (EXPERIMENT_ACTIVE && !(typeof EXPERIMENT_THEMES !== 'undefined' && EXPERIMENT_THEMES.some((t) => t.name === EXPERIMENT_ACTIVE))) { EXPERIMENT_ACTIVE = null; try { localStorage.removeItem(EXPERIMENT_STORE); } catch (e) {} }   // a remembered name that no longer exists (the rail was cut and renamed 2026-09-14) is forgotten, not carried
+const experimentTheme = () => (typeof EXPERIMENT_THEMES !== 'undefined' && EXPERIMENT_THEMES.find((x) => x.name === EXPERIMENT_ACTIVE)) || null;
+// STATUS OVERRIDE (DC): with a theme on, each Data Health status takes one of the experiment's element-state roles.
+// Data Health's own palette is two blues and two purples, so the second of each pair is the role tinted toward the fill.
+const STATUS_ROLE = { failed: ['disagreed'], warning: ['warning'], healthy: ['success'], partial: ['cmedge'], pending: ['cmedge', 60] };   // unknown / undefined keep Data Health's own purple — the experiment has no purple role (DC, 2026-09-14)
+const mixHex = (a, b, pctA) => '#' + [0, 2, 4].map((i) => Math.round(parseInt(a.slice(1 + i, 3 + i), 16) * pctA / 100 + parseInt(b.slice(1 + i, 3 + i), 16) * (100 - pctA) / 100).toString(16).padStart(2, '0')).join('');
+function statusHex(key) {   // the colour a status paints with right now: the theme's role when a swatch is on, else Data Health's own
+  const t = experimentTheme(); if (!t) return STATUS[key].hex;
+  const [role, pct] = STATUS_ROLE[key] || [];
+  const base = t[role]; if (!base) return STATUS[key].hex;
+  return pct ? mixHex(base, t.fill, pct) : base;
+}
+function renderThemeRail() {
+  const rail = el('themeRail'); if (!rail || typeof EXPERIMENT_THEMES === 'undefined') return;
+  // the experiment's tile stripe: ground 0–50%, edge to 66.667%, meta to 83.333%, sendfill to 100%, at −45°
+  const stripe = (c) => `linear-gradient(-45deg, ${c[0]} 0 50%, ${c[1]} 50% 66.667%, ${c[2]} 66.667% 83.333%, ${c[3]} 83.333% 100%)`;
+  // first on the rail: "CORE UI" — the stock theme, selected whenever no experiment is on; another way back to the regular look
+  // (DC, 2026-09-14). Its tile wears CORE UI's own colours: white ground, slate edge, grey meta, CORE UI blue for the button fill.
+  const coreui = `<button type="button" role="option" class="dh-swatch ${EXPERIMENT_ACTIVE ? '' : 'is-selected'}" data-experiment="" title="CORE UI" aria-label="CORE UI" aria-selected="${!EXPERIMENT_ACTIVE}" data-dh="experiment: the stock theme"><span class="chips" style="background:${stripe(['#ffffff', '#cfd4da', '#737373', '#0063e6'])}"></span></button>`;
+  rail.innerHTML = coreui + EXPERIMENT_THEMES.map((t) => `<button type="button" role="option" class="dh-swatch ${t.name === EXPERIMENT_ACTIVE ? 'is-selected' : ''}" data-experiment="${t.name}" title="${t.name}" aria-label="${t.name}" aria-selected="${t.name === EXPERIMENT_ACTIVE}" data-dh="experiment: swatch"><span class="chips" style="background:${stripe(t.chips)}"></span></button>`).join('');
+}
+function applyExperimentTheme() {
+  const t = experimentTheme(), p = el('preview');
+  p.classList.toggle('dh-themed', !!t);
+  for (const k of ['ground', 'fill', 'edge', 'content', 'body', 'meta', 'title', 'icon', 'cmedge', 'sendfill', 'sendtext', 'sendedge', 'secfill', 'sectext', 'secedge', 'focus']) p.style.setProperty(`--xp-${k}`, t ? t[k] : '');
+  for (const k of Object.keys(STATUS)) p.style.setProperty(`--dh-c-${k}`, t ? statusHex(k) : '');
+  if (t) p.setAttribute('data-dh', `experiment: ${t.name} palette over the preview's components`); else p.removeAttribute('data-dh');
+  if (typeof renderDash === 'function' && el('dash').innerHTML) { for (const an of RING_ANIMS) an.cancel(); RING_ANIMS = []; renderDash(); renderCode(); }   // chart fills are inline: redraw at rest
+}
+el('themeRail').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-experiment]'); if (!b) return;
+  const pick = b.dataset.experiment || null;   // the CORE UI swatch carries no name: picking it switches every experiment off
+  EXPERIMENT_ACTIVE = (pick && EXPERIMENT_ACTIVE === pick) ? null : pick;
+  try { EXPERIMENT_ACTIVE ? localStorage.setItem(EXPERIMENT_STORE, EXPERIMENT_ACTIVE) : localStorage.removeItem(EXPERIMENT_STORE); } catch (e) {}
+  renderThemeRail(); applyExperimentTheme();
+});
 
 // theme: applied at load by the inline script in index.html (before first paint); this keeps the select in step,
 // paints root + body inline for the embedded pane, and remembers the choice for the next load
@@ -286,6 +506,7 @@ function applyTheme(t) {
 }
 el('theme-switcher').value = document.documentElement.getAttribute('data-theme') || 'Light';
 applyTheme(el('theme-switcher').value);   // the boot script painted the stage; this dresses the preview for the stored theme
+renderThemeRail(); applyExperimentTheme();        // EXPERIMENT: the swatch rail and any remembered palette
 el('theme-switcher').addEventListener('change', (e) => applyTheme(e.target.value));
 
 /* Show code / Copy code: Storybook's row under the preview; the code surface opens above it */
@@ -353,7 +574,7 @@ document.addEventListener('scroll', () => { hideTip(); document.querySelectorAll
 for (const d of DASHES) d.addEventListener('mouseover', (e) => {
   const p = e.target.closest('[data-n]'); if (!p) return;
   const v = STATUS[p.dataset.key], panel = d.querySelector('.dh-chart-tip'), box = panel.querySelector('.Core-Panel-content');
-  panel.querySelector('.tooltip-color').style.backgroundColor = v.hex; panel.querySelector('.dh-tip-value').textContent = p.dataset.n; panel.querySelector('.dh-tip-label').textContent = v.label;
+  panel.querySelector('.tooltip-color').style.backgroundColor = statusHex(p.dataset.key); panel.querySelector('.dh-tip-value').textContent = p.dataset.n; panel.querySelector('.dh-tip-label').textContent = v.label;
   const card = p.closest('.Core-DataViz-Card').getBoundingClientRect();
   let x, top;
   if (p.matches('.Core-DataViz-DonutSeries')) {
@@ -376,12 +597,16 @@ for (const d of DASHES) d.addEventListener('mouseover', (e) => {
   box.style.left = `${2 * wantLeft - got.left}px`; box.style.top = `${2 * top - got.top}px`;
   panel.classList.add('Core-DataViz-Tooltip-is-open');
   p.classList.add('is-active');
+  if (p.dataset.mid) { const lift = hoverTrack('liftOut'), a = Number(p.dataset.mid); if (lift) p.style.translate = `${(lift.to * Math.sin(a)).toFixed(2)}px ${(-lift.to * Math.cos(a)).toFixed(2)}px`; }   // Sketch 07: the piece lifts out
 });
 for (const d of DASHES) d.addEventListener('mouseout', (e) => {
   const p = e.target.closest('[data-n]'); if (!p) return;
   d.querySelector('.dh-chart-tip').classList.remove('Core-DataViz-Tooltip-is-open');
   if (p.dataset.key !== S.filter) p.classList.remove('is-active');
+  if (p.dataset.mid) p.style.translate = '0px 0px';
 });
+// hover tracks (trigger: 'hover') are not played by the show; the hover handlers read them
+const hoverTrack = (prop) => MOTION.radialEnter.tracks.find((t) => t.trigger === 'hover' && t.property === prop);
 
 /* summary -> details: rows fade out, re-render, fade in — the moment the motion spec attaches to */
 function animateFilter() {
@@ -389,4 +614,5 @@ function animateFilter() {
   setTimeout(renderAll, 180);
 }
 
+restoreMotion();
 loadIcons().then(renderAll);
